@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @Component
 public class JwtUtil {
@@ -59,9 +59,6 @@ public class JwtUtil {
         } else {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
-
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)

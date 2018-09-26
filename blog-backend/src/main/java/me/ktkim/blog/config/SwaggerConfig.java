@@ -13,7 +13,7 @@ import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @Configuration
 @EnableSwagger2

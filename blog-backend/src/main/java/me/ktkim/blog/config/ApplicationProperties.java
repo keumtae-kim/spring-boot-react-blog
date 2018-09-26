@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @Configuration
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)

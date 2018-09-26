@@ -3,7 +3,7 @@ package me.ktkim.blog.common.Exception;
 import org.springframework.http.HttpStatus;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 public class ApiException extends RuntimeException {
 

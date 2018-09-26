@@ -1,7 +1,7 @@
 package me.ktkim.blog.security;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 public class AuthoritiesConstants {
 

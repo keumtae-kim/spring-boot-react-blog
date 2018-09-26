@@ -23,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @Configuration
 @EnableWebSecurity
@@ -83,8 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/authenticate").permitAll()
-                .antMatchers("/api/register").permitAll()
-                .antMatchers("/api/**").authenticated();
+                .antMatchers("/api/register").permitAll();
+                //.antMatchers("/api/**").authenticated();
     }
 
     @Override

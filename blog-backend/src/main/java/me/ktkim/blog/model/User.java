@@ -1,6 +1,8 @@
 package me.ktkim.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,29 +13,29 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @Entity
 @Table(name = "user")
+@Getter
+@Setter
 public class User extends BaseModel {
 
     private static final long serialVersionUID = 1L;
 
-    public User() {}
-
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 10)
-    @Column(name = "login", length = 10, unique = true, nullable = false)
-    private String login;
+    @Email
+    @Size(min = 5, max = 20)
+    @Column(length = 20, unique = true, nullable = false)
+    private String email;
 
     @JsonIgnore
     @NotNull
@@ -41,28 +43,18 @@ public class User extends BaseModel {
     @Column(name = "password_hash", length = 60, nullable = false)
     private String password;
 
-    @Email
-    @Size(min = 5, max = 20)
-    @Column(length = 20, unique = true)
-    private String email;
-
-    @Size(max = 20)
-    @Column(name = "name", length = 20)
-    private String name;
-
-    @NotNull
-    @Column(nullable = false)
-    private boolean activated = false;
-
     @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
 
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Post> posts;
 
     @CreatedBy
     @Column(name = "created_by", length = 50, updatable = false)
@@ -72,7 +64,7 @@ public class User extends BaseModel {
     @CreatedDate
     @Column(name = "created_date")
     @JsonIgnore
-    private Date createdDate = new Date();
+    private LocalDateTime createdDate = LocalDateTime.now();
 
     @LastModifiedBy
     @Column(name = "last_modified_by", length = 50)
@@ -82,95 +74,7 @@ public class User extends BaseModel {
     @LastModifiedDate
     @Column(name = "last_modified_date")
     @JsonIgnore
-    private Date lastModifiedDate = new Date();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean getActivated() {
-        return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
-    }
-
-    public Set<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     @Override
     public boolean equals(Object o) {

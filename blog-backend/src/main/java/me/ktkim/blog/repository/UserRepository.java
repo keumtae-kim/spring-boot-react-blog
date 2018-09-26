@@ -7,14 +7,12 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneById(Long id);
-    Optional<User> findOneByLogin(String login);
-    Optional<User> findOneByLoginOrEmail(String login, String email);
-    Optional<User> findOneWithAuthoritiesByLogin(String login);
     Optional<User> findOneByEmail(String email);
+    Optional<User> findOneWithAuthoritiesByEmail(String lowercaseEmail);
 }

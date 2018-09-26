@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 public class DatabaseConfig {
 

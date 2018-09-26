@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @Service
 @Transactional
@@ -43,26 +43,22 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public User registerAccount(UserDto.Create userDto) {
-        userRepository.findOneByLoginOrEmail(userDto.getLogin(), userDto.getEmail())
+        userRepository.findOneByEmail(userDto.getEmail())
                 .ifPresent(user -> {
                     throw new ApiException("이미 등록된 아이디나 이메일입니다.", HttpStatus.BAD_REQUEST);
                 });
 
-        User user = this.createUser(userDto.getLogin(), userDto.getPassword(),
-                userDto.getName(), userDto.getEmail().toLowerCase());
+        User user = this.createUser(userDto.getEmail().toLowerCase(), userDto.getPassword());
         return user;
     }
 
-    public User createUser(String login, String password, String name, String email) {
+    public User createUser(String email, String password) {
         User newUser = new User();
         Optional<Authority> authority = authorityRepository.findById(AuthoritiesConstants.USER);
         Set<Authority> authorities = new HashSet<>();
         String encryptedPassword = passwordEncoder.encode(password);
-        newUser.setLogin(login);
         newUser.setPassword(encryptedPassword);
-        newUser.setName(name);
         newUser.setEmail(email);
-        newUser.setActivated(false);
         authority.ifPresent(auth -> authorities.add(auth));
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
@@ -75,8 +71,6 @@ public class UserService {
     public void updateUser(Long id, String email, String name, boolean activated) {
         userRepository.findOneById(id).ifPresent(user -> {
             user.setEmail(email);
-            user.setName(name);
-            user.setActivated(activated);
             log.debug("Changed Information for User: {}", user);
         });
     }
@@ -96,12 +90,12 @@ public class UserService {
         });
     }
 
-    public void updatePassword(String login, String password) {
+    public void updatePassword(String email, String password) {
         String currentLogin = SecurityUtil.getCurrentUser();
-        if (!login.equals(currentLogin)) {
+        if (!email.equals(currentLogin)) {
             throw new RuntimeException("incorrect login");
         }
-        userRepository.findOneByLogin(SecurityUtil.getCurrentUser()).ifPresent(user -> {
+        userRepository.findOneByEmail(SecurityUtil.getCurrentUser()).ifPresent(user -> {
             String encryptedPassword = passwordEncoder.encode(password);
             user.setPassword(encryptedPassword);
         });

@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @Component
 public class DatabaseUserDetailsService implements UserDetailsService {
@@ -26,14 +26,14 @@ public class DatabaseUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(final String login) {
-        String lowercaseLogin = login.toLowerCase();
-        Optional<User> userFromDatabase = userRepository.findOneWithAuthoritiesByLogin(lowercaseLogin);
+    public UserDetails loadUserByUsername(final String email) {
+        String lowercaseEmail = email.toLowerCase();
+        Optional<User> userFromDatabase = userRepository.findOneWithAuthoritiesByEmail(lowercaseEmail);
         return userFromDatabase.map(user -> {
             List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                     .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                     .collect(Collectors.toList());
-            return new org.springframework.security.core.userdetails.User(lowercaseLogin, user.getPassword(), grantedAuthorities);
-        }).orElseThrow(() -> new UsernameNotFoundException("사용자 " + lowercaseLogin + "DB에 존재하지 않습니다."));
+            return new org.springframework.security.core.userdetails.User(lowercaseEmail, user.getPassword(), grantedAuthorities);
+        }).orElseThrow(() -> new UsernameNotFoundException("사용자 " + lowercaseEmail + "DB에 존재하지 않습니다."));
     }
 }

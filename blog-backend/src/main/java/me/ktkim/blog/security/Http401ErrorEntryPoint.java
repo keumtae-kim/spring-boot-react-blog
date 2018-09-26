@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 public class Http401ErrorEntryPoint implements AuthenticationEntryPoint {
 

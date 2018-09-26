@@ -1,8 +1,8 @@
-INSERT INTO user (id, login, password_hash, name, email, activated, created_by, created_date) VALUES
- ( 1, 'admin1', '$2a$10$9i/vfmfdXZ/WFm5EMZfLkO4aNRIOsbRSe1b8CzrJfxIJIUwDU5.7m', 'admin1','admin@email.com', true, 'system', now());
+INSERT INTO user (user_id, email, password_hash, created_by, created_date) VALUES
+ ( 1, 'admin@email.com', '$2a$10$9i/vfmfdXZ/WFm5EMZfLkO4aNRIOsbRSe1b8CzrJfxIJIUwDU5.7m', 'system', now());
 
- INSERT INTO user (id, login, password_hash, name, email, activated, created_by, created_date) VALUES
- ( 2, 'user1', '$2a$10$qdx/aFpSyP3AT/YBh9nEq.DYRV7juqUhPG.KjW.lIZUUPfrxuUkGG', 'kkt','user1@email.com', true, 'system', now());
+ INSERT INTO user (user_id, email, password_hash, created_by, created_date) VALUES
+ ( 2, 'user1@email.com', '$2a$10$qdx/aFpSyP3AT/YBh9nEq.DYRV7juqUhPG.KjW.lIZUUPfrxuUkGG', 'system', now());
 
 
 INSERT INTO authority (name) VALUES

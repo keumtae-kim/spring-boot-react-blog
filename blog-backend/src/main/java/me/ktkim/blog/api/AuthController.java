@@ -21,7 +21,7 @@ import java.util.Collections;
 import static me.ktkim.blog.security.jwt.JwtFilter.AUTHORIZATION_HEADER;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @RestController
 @RequestMapping("/api")

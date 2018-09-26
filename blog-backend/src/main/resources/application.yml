@@ -10,10 +10,10 @@ spring:
       enabled: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:~/test;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
     username: sa
     password:
-    #        driver-class-name: org.h2.jdbcx.JdbcDataSource
+    #driver-class-name: org.h2.jdbcx.JdbcDataSource
     #initialize: true
   h2:
     console:
@@ -31,7 +31,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
 server:
-  port: 8080
+  port: 8081
 
 application:
   datasource: # in addition to the standard spring.datasource properties

@@ -8,45 +8,34 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 public class UserDto {
 
     @Data
     public static class Create {
         private Long id;
-        private String login;
-        private String password;
         private String email;
-        private String name;
+        private String password;
         private Set<String> authorities;
-        private boolean activated = false;
         private String createdBy;
         private LocalDateTime createdDate;
         private String lastModifiedBy;
         private LocalDateTime lastModifiedDate;
-
     }
 
     @Data
     public static class Update {
         private Long id;
-        private String login;
         private String email;
-        private String name;
         private Set<String> authorities;
-        private boolean activated;
-
     }
 
     @Data
     public static class Response {
         private Long id;
-        private String login;
         private String email;
-        private String name;
         private Set<String> authorities;
-        private boolean activated;
 
 
         public void setAuthorities(Set<Authority> authorities) {
@@ -59,6 +48,5 @@ public class UserDto {
         private String login;
         @Size(min = 4, max = 12)
         private String password;
-
     }
 }

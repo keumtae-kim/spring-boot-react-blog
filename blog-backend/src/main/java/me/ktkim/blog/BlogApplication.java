@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @SpringBootApplication
 public class BlogApplication {

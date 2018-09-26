@@ -1,7 +1,5 @@
 package me.ktkim.blog.api;
 
-import me.ktkim.blog.common.PaginationUtil;
-import me.ktkim.blog.model.User;
 import me.ktkim.blog.model.UserDto;
 import me.ktkim.blog.repository.UserRepository;
 import me.ktkim.blog.service.UserService;
@@ -10,8 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,10 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 @RestController
 @RequestMapping("/api")
@@ -55,20 +50,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/users/{login}")
-    public ResponseEntity<UserDto.Response> getUser(@PathVariable String login) {
-        return userRepository.findOneByLogin(login)
+    @GetMapping("/users/{email}")
+    public ResponseEntity<UserDto.Response> getUser(@PathVariable String email) {
+        return userRepository.findOneByEmail(email)
                 .map(user -> modelMapper.map(user, UserDto.Response.class))
                 .map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @GetMapping("/users")
-    public ResponseEntity<List<UserDto.Response>> getAllUsers(Pageable pageable) {
-        Page<User> page = userService.findAllUser(pageable);
-        Page<UserDto.Response> pageResult = page.map(user -> modelMapper.map(user, UserDto.Response.class));
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
-        return new ResponseEntity<>(pageResult.getContent(), headers, HttpStatus.OK);
     }
 
     @PostMapping(path = "/user/update-password",

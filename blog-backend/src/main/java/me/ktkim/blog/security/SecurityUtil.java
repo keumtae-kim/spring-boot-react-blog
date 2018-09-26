@@ -6,7 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- * @author Keumtae Kim
+ * @author Kim Keumtae
  */
 public class SecurityUtil {
 
