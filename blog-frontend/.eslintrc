@@ -1,0 +1,10 @@
+{
+  "extends": "react-app",
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  }
+}
