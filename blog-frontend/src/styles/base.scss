@@ -2,22 +2,7 @@
 @import url("//fonts.googleapis.com/earlyaccess/notosanskr.css");
 @import url("//cdn.jsdelivr.net/gh/velopert/font-d2coding@1.2.1/d2coding.css");
 
-body {
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "Noto Sans KR", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #fafafa;
-}
-
-// box-sizing 일괄 설정
-* {
-  box-sizing: inherit;
-}
-
-// 링크 스타일 밑줄 및 색상 무효화
-a {
-  text-decoration: inherit;
-  color: inherit;
-}
+@import '~open-color/open-color';
+@import '~include-media/dist/include-media';
+@import '~bootstrap/scss/bootstrap';
+@import "lib/variables.scss";
