@@ -1,5 +1,6 @@
 package me.ktkim.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -54,6 +55,7 @@ public class User extends BaseModel {
     private Set<Authority> authorities = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private Set<Post> posts;
 
     @CreatedBy

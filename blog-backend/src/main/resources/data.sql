@@ -10,3 +10,12 @@ INSERT INTO authority (name) VALUES
 
 INSERT INTO user_authority (user_id,authority_name) VALUES
  ( 1, 'ROLE_ADMIN'), (1, 'ROLE_USER'), (2, 'ROLE_USER');
+
+INSERT INTO post (title, body, user_id, created_by, created_date) VALUES
+ ( 'title 1', 'title1 body', '1', 'system', now());
+
+INSERT INTO post (title, body, user_id, created_by, created_date) VALUES
+ ( 'title 2', 'title2 body', '1', 'system', now());
+
+INSERT INTO post (title, body, user_id, created_by, created_date) VALUES
+ ( 'title 3', 'title3 body', '2', 'system', now());
