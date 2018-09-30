@@ -1,6 +1,6 @@
 spring:
   application:
-    name: App
+    name: Blog
   profiles:
     active: dev
   devtools:

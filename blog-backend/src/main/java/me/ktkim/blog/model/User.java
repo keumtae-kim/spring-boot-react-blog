@@ -34,8 +34,8 @@ public class User extends BaseModel {
     private Long id;
 
     @Email
-    @Size(min = 5, max = 20)
-    @Column(length = 20, unique = true, nullable = false)
+    @Size(min = 5, max = 30)
+    @Column(length = 30, unique = true, nullable = false)
     private String email;
 
     @JsonIgnore
@@ -77,6 +77,12 @@ public class User extends BaseModel {
     @Column(name = "last_modified_date")
     @JsonIgnore
     private LocalDateTime lastModifiedDate = LocalDateTime.now();
+
+    public User() {}
+
+    public User(Long id) {
+        this.id = id;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -47,21 +47,17 @@ public class Post {
 
     @CreatedBy
     @Column(name = "created_by", length = 50, updatable = false)
-    @JsonIgnore
     private String createdBy;
 
     @CreatedDate
     @Column(name = "created_date")
-    @JsonIgnore
     private LocalDateTime createdDate = LocalDateTime.now();
 
     @LastModifiedBy
     @Column(name = "last_modified_by", length = 50)
-    @JsonIgnore
     private String lastModifiedBy;
 
     @LastModifiedDate
     @Column(name = "last_modified_date")
-    @JsonIgnore
     private LocalDateTime lastModifiedDate = LocalDateTime.now();
 }
