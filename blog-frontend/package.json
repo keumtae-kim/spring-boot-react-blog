@@ -31,14 +31,17 @@
     "file-loader": "1.1.5",
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
+    "immutable": "^3.8.2",
     "include-media": "^1.4.9",
     "jest": "20.0.4",
+    "marked": "^0.5.1",
     "node-sass": "^4.9.3",
     "object-assign": "4.1.1",
     "open-color": "^1.6.3",
     "path": "^0.12.7",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
+    "prismjs": "^1.15.0",
     "promise": "8.0.1",
     "query-string": "^6.1.0",
     "raf": "3.4.0",
@@ -52,6 +55,7 @@
     "reactstrap": "^6.4.0",
     "redux": "^4.0.0",
     "redux-actions": "^2.6.1",
+    "redux-pender": "^1.2.1",
     "resolve": "1.6.0",
     "sass-loader": "^7.1.0",
     "style-loader": "0.19.0",
@@ -112,5 +116,6 @@
   },
   "devDependencies": {
     "prettier-eslint": "^8.8.2"
-  }
+  },
+  "proxy": "http://localhost:8081"
 }
