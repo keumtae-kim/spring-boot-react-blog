@@ -26,10 +26,11 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @GetMapping(value = "/post/{id}")
+    @GetMapping(value = "/posts/{id}")
     public Post getPost(@PathVariable Long id) {
         log.debug("REST request to get Post : {}", id);
-        return postService.findForId(id).orElseThrow(() -> new ApiException("Post does not exist", HttpStatus.NOT_FOUND));
+        Post post = postService.findForId(id).orElseThrow(() -> new ApiException("Post does not exist", HttpStatus.NOT_FOUND));
+        return post;
     }
 
     @GetMapping(value = "/posts")
