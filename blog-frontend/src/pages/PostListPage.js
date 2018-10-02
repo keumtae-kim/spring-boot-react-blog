@@ -1,15 +1,14 @@
 import React from 'react';
 import Header from 'components/common/Header'
 import Footer from 'components/common/Footer'
-import PostContainer from 'containers/PostContainer'
+import PostListContainer from 'containers/PostListContainer'
 
 
-const PostPage = ({match}) => {
-  const { id } = match.params;
+const PostPage = () => {
   return (
     <div>
       <Header />
-      <PostContainer id={id}/>
+      <PostListContainer />
       <Footer />
     </div>
   );
