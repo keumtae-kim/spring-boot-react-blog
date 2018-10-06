@@ -2,11 +2,6 @@ import React, { Fragment } from 'react';
 
 import styles from './PostList.scss';
 import classNames from 'classnames/bind';
-import {
-  Container,
-  Row,
-  Col
-} from 'reactstrap';
 import Post from 'components/Post';
 const cx = classNames.bind(styles);
 
