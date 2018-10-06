@@ -8,9 +8,8 @@ class PostContainer extends Component {
 
   getPost = async (id) => {
     const { PostActions } = this.props;
-    console.log("request id : " + id)
     try {
-      await PostActions.getPost(id);     
+      await PostActions.getPost(id);
     } catch (e) {
       console.log("error log :" + e);
     }
@@ -18,19 +17,18 @@ class PostContainer extends Component {
 
   componentDidMount() {
     const { id } = this.props;
-    const { post } = this.props;
-    if (!post || post === undefined || post.isEmpty()) {
-      this.getPost(id);
-    }   
+    this.getPost(id);
   }
 
   render() {
     const { post, loading, error, success } = this.props;
+    if (loading)
+      return null;
     return (
       <Fragment>
-        { loading && "Loading..." }
-        { error && <h1>Server Error!</h1> }
-        { success && <Post post={post} /> }
+        {/* {loading && "Loading..."} */}
+        {error && <h1>Server Error!</h1>}
+        {success && <Post post={post} />}
       </Fragment>
     );
   }

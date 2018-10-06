@@ -1,17 +1,14 @@
 import React from 'react';
-import Header from 'components/common/Header'
-import Footer from 'components/common/Footer'
+import PageTemplate from 'components/common/PageTemplate'
 import PostContainer from 'containers/PostContainer'
 
 
 const PostPage = ({match}) => {
   const { id } = match.params;
   return (
-    <div>
-      <Header />
+    <PageTemplate>
       <PostContainer id={id}/>
-      <Footer />
-    </div>
+    </PageTemplate>
   );
 };
 

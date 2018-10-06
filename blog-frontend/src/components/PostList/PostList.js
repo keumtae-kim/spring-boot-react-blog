@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import styles from './PostList.scss';
 import classNames from 'classnames/bind';
@@ -10,7 +10,7 @@ import {
 import Post from 'components/Post';
 const cx = classNames.bind(styles);
 
-const PostList = ({ posts }) => {  
+const PostList = ({ posts }) => {
   if (posts === undefined) {
     return null;
   }
@@ -18,20 +18,16 @@ const PostList = ({ posts }) => {
   const postList = posts.map((post, index) => {
     return (
       <div key={post.get("id")}>
-        <Post post={post}/>        
-        <hr />        
+        <Post post={post} />
+        <hr />
       </div>
     )
   });
 
   return (
-    <Container>
-      <Row>
-        <Col className={cx("mx-auto", { lg: "8", md: "10" })} >
-          {postList}
-        </Col>
-      </Row>
-    </Container>
+    <Fragment>
+      {postList}
+    </Fragment>
   )
 };
 

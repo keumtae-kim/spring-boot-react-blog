@@ -35,6 +35,7 @@
     "include-media": "^1.4.9",
     "jest": "20.0.4",
     "marked": "^0.5.1",
+    "moment": "^2.22.2",
     "node-sass": "^4.9.3",
     "object-assign": "4.1.1",
     "open-color": "^1.6.3",

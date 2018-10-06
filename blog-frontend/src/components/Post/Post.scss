@@ -1,7 +1,7 @@
 @import "base.scss";
 // Styling for the post page
-.post-preview {
-  > a {
+
+  a {
     color: $gray-900;
     &:focus,
     &:hover {
@@ -18,12 +18,12 @@
       margin: 0 0 10px;
     }
   }
-  > .post-meta {
+  .post-meta {
     font-size: 18px;
     font-style: italic;
     margin-top: 0;
     color: $gray-600;
-    > a {
+    a {
       text-decoration: none;
       color: $gray-900;
       &:focus,
@@ -40,4 +40,4 @@
       }
     }
   }
-}
+

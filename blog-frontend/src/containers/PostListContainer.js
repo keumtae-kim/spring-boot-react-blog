@@ -7,7 +7,6 @@ import PostList from "components/PostList";
 class PostContainer extends Component {
   getPostList = async (page, size) => {
     const { PostActions } = this.props;
-    console.log("page : " + page + " size : " + size);
     try {
       await PostActions.getPostList(page, size);     
     } catch (e) {

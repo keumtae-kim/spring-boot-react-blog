@@ -6,3 +6,8 @@
 @import '~include-media/dist/include-media';
 @import '~bootstrap/scss/bootstrap';
 @import "lib/variables.scss";
+
+a { 
+  color: inherit; 
+  text-decoration: none !important;
+} 
