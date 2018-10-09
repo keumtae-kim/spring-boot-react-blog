@@ -13,8 +13,7 @@ const PostList = ({ posts }) => {
   const postList = posts.map((post, index) => {
     return (
       <div key={post.get("id")}>
-        <Post post={post} />
-        <hr />
+        <Post post={post} />       
       </div>
     )
   });

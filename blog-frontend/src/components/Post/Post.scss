@@ -8,14 +8,20 @@
       text-decoration: none;
       color: $primary;
     }
-    > .post-title {
-      font-size: 30px;
-      margin-top: 30px;
-      margin-bottom: 10px;
-    }
-    > .post-body {
-      font-weight: 300;
-      margin: 0 0 10px;
+    .post-header {
+      background: #eee;
+      padding: 2rem;
+      margin-bottom: 1rem;
+    
+      .post-title {
+        font-size: 30px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+      .post-body {
+        font-weight: 300;
+        margin: 0 0 10px;
+      }
     }
   }
   .post-meta {

@@ -23,7 +23,7 @@ export default handleActions({
     onSuccess: (state, action) => {
       const { data: content } = action.payload;
       console.log("GET_POST_LIST onSuccess")     
-      return state.set('posts', fromJS(content.content))
+      return state.set('posts', fromJS(content))
     },
     onFailure: (state, action) => {
       console.log("GET_POST_LIST onFailure")

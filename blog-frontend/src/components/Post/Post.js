@@ -20,14 +20,16 @@ const Post = ({ post }) => {
   return (
     <Fragment>
       <a>
-        <h2 className={cx("post-title")}>
-          <Link to={"/posts/" + post.get("id")}>{post.get("title")}</Link>
-        </h2>
-        <p className={cx("post-meta")}>
-          Posted by < a>{post.get("createdBy") + " "}</a>{moment(post.get("lastModifiedDate")).format("lll")}
-        </p>
-        <hr />
+        <div className={cx("post-header")}>
+          <h2 className={cx("post-title")}>
+            <Link to={"/posts/" + post.get("id")}>{post.get("title")}</Link>
+          </h2>
+          <p className={cx("post-meta")}>
+            Posted by < a>{post.get("createdBy") + " "}</a>{moment(post.get("lastModifiedDate")).format("lll")}
+          </p>
+        </div>
         <MarkdownRender markdown={post.get("body")} />
+        <hr />
       </a>
     </Fragment>
   )
