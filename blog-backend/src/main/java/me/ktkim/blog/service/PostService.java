@@ -25,12 +25,23 @@ public class PostService {
     public Optional<Post> findForId(Long id) {
         return postRepository.findById(id);
     }
+
     public Post registerPost(PostDto postDto) {
         Post newPost = new Post();
         newPost.setTitle(postDto.getTitle());
         newPost.setBody(postDto.getBody());
         newPost.setUser(new User(postDto.getUserId()));
         return postRepository.saveAndFlush(newPost);
+    }
+
+    public Optional<PostDto> editPost(PostDto editPostDto) {
+        return this.findForId(editPostDto.getId())
+                .map(p -> {
+                    p.setTitle(editPostDto.getTitle());
+                    p.setBody(editPostDto.getBody());
+                    return p;
+                })
+                .map(PostDto::new);
     }
 
     public Page<Post> findByUserOrderedByCreatedDatePageable(User user, Pageable pageable) {
@@ -44,5 +55,4 @@ public class PostService {
     public void delete(Post post) {
         postRepository.delete(post);
     }
-
 }

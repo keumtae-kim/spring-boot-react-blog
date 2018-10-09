@@ -1,5 +1,6 @@
 package me.ktkim.blog.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -12,4 +13,13 @@ public class PostDto {
     private String title;
     private String body;
     private Long userId;
+
+    public PostDto () {}
+
+    public PostDto (Post post) {
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.body = post.getBody();
+        this.userId = post.getUser().getId();
+    }
 }
