@@ -35,18 +35,12 @@ class Menu extends Component {
     return (
       <Navbar className={cx("navbar", "navbar-expand-lg", "navbar-light", "fixed-top", "is-visible")} id="mainNav">
         <Container>
-          <a className={cx("navbar-brand")} href="index.html">Spring-Boot React Blog</a>
+          <a className={cx("navbar-brand")} href="/">Spring-Boot React Blog</a>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="navbar-nav ml-auto">
               <NavItem>
-                <NavLink to="/index">Home</NavLink>
-              </NavItem>
-              <NavItem>
                 <NavLink to="/about">About</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink to="/post">Sample Post</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink to="/contact">Contact</NavLink>
