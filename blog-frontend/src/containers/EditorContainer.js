@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as postActions from "store/modules/post";
 import TextEditor from "components/TextEditor";
+import { withRouter } from 'react-router-dom';
 
 class EditorContainer extends Component {
 
@@ -16,7 +17,7 @@ class EditorContainer extends Component {
   }
 
   writePost = async (id, title, body) => {
-    const { PostActions } = this.props;
+    const { PostActions, history } = this.props;
     try {
 
       if (id) {
@@ -24,6 +25,7 @@ class EditorContainer extends Component {
       } else {
         await PostActions.writePost(title, body);
       }
+      history.push(`/posts/${id}`);
 
       
     } catch (e) {
@@ -59,5 +61,5 @@ export default connect(
   dispatch => ({
     PostActions: bindActionCreators(postActions, dispatch)
   })
-)(EditorContainer);
+)(withRouter(EditorContainer));
 
