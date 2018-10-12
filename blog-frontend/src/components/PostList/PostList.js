@@ -2,7 +2,10 @@ import React, { Fragment } from 'react';
 
 import styles from './PostList.scss';
 import classNames from 'classnames/bind';
-import Post from 'components/Post';
+import PostPreview from 'components/PostList/PostPreview';
+import { Link } from 'react-router-dom'
+import { Button } from 'reactstrap';
+
 const cx = classNames.bind(styles);
 
 const PostList = ({ posts }) => {
@@ -10,10 +13,29 @@ const PostList = ({ posts }) => {
     return null;
   }
 
-  const postList = posts.map((post, index) => {
+  const postList = posts.map((post) => {
+
+    let postBody = post.get("body");
+    let isReadMore = false;
+    if (postBody.length > 200) {
+      isReadMore = true;
+    }
+
     return (
       <div key={post.get("id")}>
-        <Post post={post} />       
+        <div className={cx('post')}>
+          <PostPreview post={post} />
+          {isReadMore &&
+            <Button
+              className={cx('more-btn')}
+              color='primary'
+              size='sm'
+              tag={Link}
+              to={"/posts/" + post.get("id")}>
+              Read More >>
+            </Button>}
+        </div>
+        <hr />
       </div>
     )
   });
@@ -26,5 +48,3 @@ const PostList = ({ posts }) => {
 };
 
 export default PostList;
-
-

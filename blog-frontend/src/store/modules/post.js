@@ -8,9 +8,13 @@ import * as api from 'lib/api';
 //action types
 const GET_POST_LIST = 'post/GET_POST_LIST';
 const GET_POST = 'post/GET_POST';
+const WRITE_POST = 'post/WRITE_POST';
+const EDIT_POST = 'post/EDIT_POST';
 
 export const getPostList = createAction(GET_POST_LIST, api.getPosts);
 export const getPost = createAction(GET_POST, api.getPost);
+export const writePost = createAction(WRITE_POST, api.writePost);
+export const editPost = createAction(WRITE_POST, api.editPost);
 
 const initialState = Map({
   posts: List(),
@@ -50,5 +54,19 @@ export default handleActions({
       console.log("GET_POST onPending")
       return state;
     }
-  })
+  }),
+  ...pender({
+    type: WRITE_POST,
+    onSuccess: (state, action) => {
+      const { _id } = action.payload.data;
+      return state.set('postId', _id);
+    }
+  }),
+  ...pender({
+    type: EDIT_POST,
+    onSuccess: (state, action) => {
+      const { _id } = action.payload.data;
+      return state.set('postId', _id);
+    }
+  }),
 }, initialState)

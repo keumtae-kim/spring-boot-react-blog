@@ -1,49 +1,27 @@
 @import "base.scss";
-// Styling for the post page
 
-  a {
-    color: $gray-900;
-    &:focus,
-    &:hover {
-      text-decoration: none;
-      color: $primary;
-    }
-    .post-header {
-      background: #eee;
-      padding: 2rem;
-      margin-bottom: 1rem;
-    
-      .post-title {
-        font-size: 30px;
-        margin-top: 30px;
-        margin-bottom: 10px;
-      }
-      .post-body {
-        font-weight: 300;
-        margin: 0 0 10px;
-      }
-    }
-  }
-  .post-meta {
-    font-size: 18px;
-    font-style: italic;
-    margin-top: 0;
-    color: $gray-600;
-    a {
-      text-decoration: none;
-      color: $gray-900;
-      &:focus,
-      &:hover {
-        text-decoration: underline;
-        color: $primary;
-      }
-    }
-  }
-  @media only screen and (min-width: 768px) {
-    > a {
+.post-title {
+    font-size: 3.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.post-meta {
+  display: inline-block;
+  font-size: 18px;
+  font-style: italic;
+  margin-top: 0;
+  color: $gray-600;
+}
+
+.post-button {
+  margin: 0 0.3rem;
+}
+
+@media only screen and (min-width:768px) {
+  > a {
       > .post-title {
-        font-size: 36px;
+          font-size: 36px;
       }
-    }
   }
-
+}
