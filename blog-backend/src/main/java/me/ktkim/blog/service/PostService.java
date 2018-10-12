@@ -30,7 +30,7 @@ public class PostService {
         Post newPost = new Post();
         newPost.setTitle(postDto.getTitle());
         newPost.setBody(postDto.getBody());
-        newPost.setUser(new User(postDto.getUserId()));
+        newPost.setUser(new User(1L)); // temporary code
         return postRepository.saveAndFlush(newPost);
     }
 
