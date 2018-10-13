@@ -2208,7 +2208,7 @@ draft-js-import-element@^1.2.1:
     draft-js-utils "^1.2.0"
     synthetic-dom "^1.2.0"
 
-draft-js-import-html@>=0.4.0:
+draft-js-import-html@>=0.4.0, draft-js-import-html@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/draft-js-import-html/-/draft-js-import-html-1.2.1.tgz#88adb8ce5dbe1a5a777663b1893cee6a35239eaa"
   dependencies:
@@ -6388,10 +6388,6 @@ regjsparser@^0.1.4:
 relateurl@0.2.x:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
-
-remove-markdown@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/remove-markdown/-/remove-markdown-0.3.0.tgz#5e4b667493a93579728f3d52ecc1db9ca505dc98"
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"

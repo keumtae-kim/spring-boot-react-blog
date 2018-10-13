@@ -42,6 +42,7 @@ const PostList = ({ posts }) => {
 
   return (
     <Fragment>
+      <Button className={cx('write-btn')} color='info'tag={Link} to={"/editor"}>NEW POST</Button>
       {postList}
     </Fragment>
   )

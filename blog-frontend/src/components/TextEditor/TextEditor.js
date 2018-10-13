@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 
 import styles from './TextEditor.scss';
 import classNames from 'classnames/bind';
-import { EditorState, convertToRaw, ContentState, convertFromHTML } from 'draft-js';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 import { Link } from 'react-router-dom'
+import htmlToDraft from 'html-to-draftjs';
 import {
   Button,
   Input
 } from 'reactstrap';
-
 const cx = classNames.bind(styles);
 
 class TextEditor extends Component {
@@ -27,11 +27,10 @@ class TextEditor extends Component {
 
     let textTitle = '';
     if (props.post) {
-      console.log("show props.post.get" + props.post.get("body"))
-      const blocksFromHTML = convertFromHTML(props.post.get("body"));
-      const contentState = ContentState.createFromBlockArray(blocksFromHTML);
-      editorState = EditorState.createWithContent(contentState);
       textTitle = props.post.get("title")
+      const contentBlock = htmlToDraft(props.post.get("body"));
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+      editorState = EditorState.createWithContent(contentState);
     }
     else {
       editorState = EditorState.createEmpty();
@@ -43,7 +42,11 @@ class TextEditor extends Component {
     const { editorState, textTitle } = this.state;
     const { post, writePost } = this.props;
 
-    const id = post.get("id")
+    let id;
+    if (post && post.get('id')) {
+      id = post.get('id')
+    }
+    
     const title = textTitle;
     const body = draftToHtml(convertToRaw(editorState.getCurrentContent()));
 

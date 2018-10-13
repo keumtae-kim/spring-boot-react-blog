@@ -42,7 +42,6 @@ export default handleActions({
     type: GET_POST,
     onSuccess: (state, action) => {
       const { data: content } = action.payload;
-      console.log("test : " + content)
       console.log("GET_POST onSuccess")
       return state.set('post', fromJS(content));
     },
@@ -58,15 +57,17 @@ export default handleActions({
   ...pender({
     type: WRITE_POST,
     onSuccess: (state, action) => {
-      const { _id } = action.payload.data;
-      return state.set('postId', _id);
+      const { id } = action.payload.data;
+      console.log("WRITE_POST onSuccess")
+      return state.set('postId', id);
     }
   }),
   ...pender({
     type: EDIT_POST,
     onSuccess: (state, action) => {
-      const { _id } = action.payload.data;
-      return state.set('postId', _id);
+      const { id } = action.payload.data;
+      console.log("EDIT_POST onSuccess")
+      return state.set('postId', id);
     }
   }),
 }, initialState)

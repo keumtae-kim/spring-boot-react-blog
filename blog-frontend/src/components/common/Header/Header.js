@@ -34,7 +34,7 @@ class Header extends Component {
             <Row>
               <Col className={cx("mx-auto", { lg: "8", md: "10" })} >
                 <div className={cx("heading")}>
-                  <h1>ktkim's Blog</h1>
+                  {/* <h1></h1> */}
                 </div>
               </Col>
             </Row>

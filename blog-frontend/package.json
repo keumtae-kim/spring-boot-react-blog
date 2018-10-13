@@ -20,6 +20,7 @@
     "dotenv": "4.0.0",
     "dotenv-expand": "4.2.0",
     "draft-js": "^0.10.5",
+    "draft-js-import-html": "^1.2.1",
     "draftjs-to-html": "^0.8.4",
     "draftjs-to-markdown": "^0.5.1",
     "eslint": "4.10.0",

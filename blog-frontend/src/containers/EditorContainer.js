@@ -25,7 +25,8 @@ class EditorContainer extends Component {
       } else {
         await PostActions.writePost(title, body);
       }
-      history.push(`/posts/${id}`);
+      
+      history.push(`/posts/${this.props.postId}`);
 
       
     } catch (e) {
@@ -35,17 +36,19 @@ class EditorContainer extends Component {
 
   componentDidMount() {
     const { id } = this.props;
-    this.getPost(id);
+    if (id) {
+      this.getPost(id);
+    }    
   }
 
   render() {
-    const { post, loading, error, success } = this.props;
+    const { post, loading, error, success, id } = this.props;
     if (loading)
       return null;
     return (
       <Fragment>        
         {error && <h1>Server Error!</h1>}
-        {success && <TextEditor post={post} writePost={this.writePost} />}
+        {<TextEditor post={id ? post : ''} writePost={this.writePost} />}        
       </Fragment>
     );
   }
@@ -54,6 +57,7 @@ class EditorContainer extends Component {
 export default connect(
   state => ({
     post: state.post.get("post"),
+    postId: state.post.get("postId"),
     loading: state.pender.pending["post/GET_POST"],
     error: state.pender.failure["post/GET_POST"],
     success: state.pender.success["post/GET_POST"]
