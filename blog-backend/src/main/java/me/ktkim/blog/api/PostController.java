@@ -44,25 +44,27 @@ public class PostController {
     }
 
     @PostMapping(value = "/posts")
-    public ResponseEntity<Void> registerPost(@RequestBody PostDto postDto) {
+    public ResponseEntity<PostDto> registerPost(@RequestBody PostDto postDto) {
         log.debug("REST request to save Post : {}", postDto);
         if (postDto.getId() != null) {
             throw new ApiException("A new post cannot already have an ID", HttpStatus.CONFLICT);
         } else {
-            postService.registerPost(postDto);
+            PostDto returnPost = postService.registerPost(postDto);
+            return new ResponseEntity<PostDto>(returnPost, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/posts/{id}")
-    public ResponseEntity<Void> editPost(@PathVariable Long id,
+    public ResponseEntity<PostDto> editPost(@PathVariable Long id,
                                          @RequestBody PostDto postDto) {
         log.debug("REST request to edit Post : {}", postDto);
         Optional<Post> post = postService.findForId(id);
         if (!post.isPresent()) {
             throw new ApiException("Post could not be found", HttpStatus.NOT_FOUND);
         }
-        postService.editPost(postDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Optional<PostDto> returnPost = postService.editPost(postDto);
+        return returnPost.map(response -> {
+            return new ResponseEntity<PostDto>(response, HttpStatus.OK);
+        }).orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
     }
 }

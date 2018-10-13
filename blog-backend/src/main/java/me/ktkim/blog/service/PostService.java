@@ -26,12 +26,12 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public Post registerPost(PostDto postDto) {
+    public PostDto registerPost(PostDto postDto) {
         Post newPost = new Post();
         newPost.setTitle(postDto.getTitle());
         newPost.setBody(postDto.getBody());
         newPost.setUser(new User(1L)); // temporary code
-        return postRepository.saveAndFlush(newPost);
+        return new PostDto(postRepository.saveAndFlush(newPost));
     }
 
     public Optional<PostDto> editPost(PostDto editPostDto) {

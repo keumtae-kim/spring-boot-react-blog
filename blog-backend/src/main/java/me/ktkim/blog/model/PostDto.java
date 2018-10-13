@@ -1,6 +1,5 @@
 package me.ktkim.blog.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
