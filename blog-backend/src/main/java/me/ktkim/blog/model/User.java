@@ -38,6 +38,10 @@ public class User extends BaseModel {
     @Column(length = 30, unique = true, nullable = false)
     private String email;
 
+    @Size(min = 1, max = 30)
+    @Column(name = "user_name", length = 30, unique = true, nullable = false)
+    private String userName;
+
     @JsonIgnore
     @NotNull
     @Size(min = 60, max = 60)

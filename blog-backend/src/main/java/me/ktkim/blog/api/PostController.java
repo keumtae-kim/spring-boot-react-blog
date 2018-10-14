@@ -30,17 +30,18 @@ public class PostController {
     private PostService postService;
 
     @GetMapping(value = "/posts/{id}")
-    public ResponseEntity<Post> getPost(@PathVariable Long id) {
+    public ResponseEntity<PostDto> getPost(@PathVariable Long id) {
         log.debug("REST request to get Post : {}", id);
         Post post = postService.findForId(id).orElseThrow(() -> new ApiException("Post does not exist", HttpStatus.NOT_FOUND));
-        return new ResponseEntity<>(post, HttpStatus.OK);
+        return new ResponseEntity<>(new PostDto(post), HttpStatus.OK);
     }
 
     @GetMapping(value = "/posts")
-    public ResponseEntity<List<Post>> getPostList(Pageable pageable) {
+    public ResponseEntity<List<PostDto>> getPostList(Pageable pageable) {
         log.debug("REST request to get Posts : {}", pageable);
         Page<Post> posts = postService.findAllByOrderByCreatedDateDescPageable(pageable);
-        return new ResponseEntity<>(posts.getContent(), HttpStatus.OK);
+        Page<PostDto> postDto = posts.map(post -> new PostDto((post)));
+        return new ResponseEntity<>(postDto.getContent(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/posts")

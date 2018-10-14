@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
 
@@ -37,5 +37,4 @@ public class Comment {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     @NotNull
     private User user;
-
 }
