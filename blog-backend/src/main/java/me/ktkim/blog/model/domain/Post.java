@@ -1,6 +1,5 @@
-package me.ktkim.blog.model;
+package me.ktkim.blog.model.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;

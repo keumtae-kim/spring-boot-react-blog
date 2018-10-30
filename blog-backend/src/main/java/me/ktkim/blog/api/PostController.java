@@ -1,8 +1,8 @@
 package me.ktkim.blog.api;
 
 import me.ktkim.blog.common.Exception.ApiException;
-import me.ktkim.blog.model.Post;
-import me.ktkim.blog.model.PostDto;
+import me.ktkim.blog.model.domain.Post;
+import me.ktkim.blog.model.dto.PostDto;
 import me.ktkim.blog.service.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 package me.ktkim.blog.repository;
 
-import me.ktkim.blog.model.Post;
-import me.ktkim.blog.model.User;
+import me.ktkim.blog.model.domain.Post;
+import me.ktkim.blog.model.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

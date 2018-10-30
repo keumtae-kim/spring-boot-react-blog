@@ -1,6 +1,7 @@
-package me.ktkim.blog.model;
+package me.ktkim.blog.model.dto;
 
 import lombok.Data;
+import me.ktkim.blog.model.domain.Post;
 
 import java.time.LocalDateTime;
 

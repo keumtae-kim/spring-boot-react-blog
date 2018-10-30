@@ -1,11 +1,11 @@
-INSERT INTO user (user_id, email, user_name, password_hash, created_by, created_date) VALUES
- ( 1, 'keumtae.kim@email.com', 'keumtae.kim', '$2a$10$9i/vfmfdXZ/WFm5EMZfLkO4aNRIOsbRSe1b8CzrJfxIJIUwDU5.7m', 'keumtae.kim', now());
+INSERT INTO user (user_id, email, user_name, password_hash, provider, created_by, created_date) VALUES
+ ( 1, 'keumtae.kim@email.com', 'keumtae.kim', '$2a$10$9i/vfmfdXZ/WFm5EMZfLkO4aNRIOsbRSe1b8CzrJfxIJIUwDU5.7m', 'local', 'keumtae.kim', now());
 
- INSERT INTO user (user_id, email, user_name, password_hash, created_by, created_date) VALUES
- ( 2, 'user1@email.com', 'lucas kim','$2a$10$qdx/aFpSyP3AT/YBh9nEq.DYRV7juqUhPG.KjW.lIZUUPfrxuUkGG', 'lucas kim', now());
+ INSERT INTO user (user_id, email, user_name, password_hash, provider, created_by, created_date) VALUES
+ ( 2, 'user1@email.com', 'lucas kim','$2a$10$qdx/aFpSyP3AT/YBh9nEq.DYRV7juqUhPG.KjW.lIZUUPfrxuUkGG', 'local', 'lucas kim', now());
 
-  INSERT INTO user (user_id, email, user_name, password_hash, created_by, created_date) VALUES
- ( 3, 'admin@email.com', 'jone kim', '$2a$10$qdx/aFpSyP3AT/YBh9nEq.DYRV7juqUhPG.KjW.lIZUUPfrxuUkGG', 'jone kim', now());
+  INSERT INTO user (user_id, email, user_name, password_hash, provider, created_by, created_date) VALUES
+ ( 3, 'admin@email.com', 'jone kim', '$2a$10$qdx/aFpSyP3AT/YBh9nEq.DYRV7juqUhPG.KjW.lIZUUPfrxuUkGG', 'local', 'jone kim', now());
 
 
 INSERT INTO authority (name) VALUES

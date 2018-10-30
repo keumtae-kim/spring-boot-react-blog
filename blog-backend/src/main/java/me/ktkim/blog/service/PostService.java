@@ -1,8 +1,8 @@
 package me.ktkim.blog.service;
 
-import me.ktkim.blog.model.Post;
-import me.ktkim.blog.model.PostDto;
-import me.ktkim.blog.model.User;
+import me.ktkim.blog.model.domain.Post;
+import me.ktkim.blog.model.dto.PostDto;
+import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

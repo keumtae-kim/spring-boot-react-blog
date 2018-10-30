@@ -1,9 +1,9 @@
 package me.ktkim.blog.service;
 
 import me.ktkim.blog.common.Exception.ApiException;
-import me.ktkim.blog.model.Authority;
-import me.ktkim.blog.model.User;
-import me.ktkim.blog.model.UserDto;
+import me.ktkim.blog.model.domain.Authority;
+import me.ktkim.blog.model.domain.User;
+import me.ktkim.blog.model.dto.UserDto;
 import me.ktkim.blog.repository.AuthorityRepository;
 import me.ktkim.blog.repository.UserRepository;
 import me.ktkim.blog.security.AuthoritiesConstants;
@@ -43,9 +43,9 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public User registerAccount(UserDto.Create userDto) {
-        userRepository.findOneByEmail(userDto.getEmail())
+        userRepository.findByEmail(userDto.getEmail())
                 .ifPresent(user -> {
-                    throw new ApiException("이미 등록된 아이디나 이메일입니다.", HttpStatus.BAD_REQUEST);
+                    throw new ApiException("Email Already exists.", HttpStatus.BAD_REQUEST);
                 });
 
         User user = this.createUser(userDto.getEmail().toLowerCase(), userDto.getPassword());
@@ -95,7 +95,7 @@ public class UserService {
         if (!email.equals(currentLogin)) {
             throw new RuntimeException("incorrect login");
         }
-        userRepository.findOneByEmail(SecurityUtil.getCurrentUser()).ifPresent(user -> {
+        userRepository.findByEmail(SecurityUtil.getCurrentUser()).ifPresent(user -> {
             String encryptedPassword = passwordEncoder.encode(password);
             user.setPassword(encryptedPassword);
         });

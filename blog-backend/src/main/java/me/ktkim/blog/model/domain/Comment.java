@@ -1,4 +1,4 @@
-package me.ktkim.blog.model;
+package me.ktkim.blog.model.domain;
 
 import lombok.Getter;
 import lombok.Setter;

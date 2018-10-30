@@ -2,6 +2,7 @@ package me.ktkim.blog.security.jwt;
 
 import io.jsonwebtoken.*;
 import me.ktkim.blog.config.ApplicationProperties;
+import me.ktkim.blog.security.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -21,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * @author Kim Keumtae
  */
-@Component
+@Service
 public class JwtUtil {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -33,11 +35,10 @@ public class JwtUtil {
 
     private long tokenValidityInMillisecondsForRememberMe;
 
-    @Autowired
     private ApplicationProperties applicationProperties;
 
-    @PostConstruct
-    public void init() {
+    public JwtUtil(ApplicationProperties applicationProperties) {
+        this.applicationProperties = applicationProperties;
         this.secretKey =
                 applicationProperties.getSecurity().getJwt().getSecret();
 
@@ -45,6 +46,15 @@ public class JwtUtil {
                 1000 * applicationProperties.getSecurity().getJwt().getTokenValidityInSeconds();
         this.tokenValidityInMillisecondsForRememberMe =
                 1000 * applicationProperties.getSecurity().getJwt().getTokenValidityInSecondsForRememberMe();
+    }
+//
+//    @PostConstruct
+//    public void init() {
+//
+//    }
+
+    public String createToken(Authentication authentication) {
+        return createToken(authentication, false);
     }
 
     public String createToken(Authentication authentication, Boolean rememberMe) {
@@ -59,8 +69,10 @@ public class JwtUtil {
         } else {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+
         return Jwts.builder()
-                .setSubject(authentication.getName())
+                .setSubject(userPrincipal.getEmail())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .setExpiration(validity)
@@ -91,6 +103,15 @@ public class JwtUtil {
         User principal = new User(claims.getSubject(), "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
+
+    public String getUserIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
     }
 
     public boolean validateToken(String authToken) {

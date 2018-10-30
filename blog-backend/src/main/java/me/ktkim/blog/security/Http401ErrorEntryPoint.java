@@ -15,13 +15,11 @@ import java.io.IOException;
  */
 public class Http401ErrorEntryPoint implements AuthenticationEntryPoint {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
-
     /**
      * Always returns a 401 error code to the client.
      */
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2)
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
             throws IOException,
             ServletException {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied");

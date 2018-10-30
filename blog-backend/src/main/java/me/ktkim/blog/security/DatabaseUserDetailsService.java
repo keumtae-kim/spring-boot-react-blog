@@ -1,6 +1,6 @@
 package me.ktkim.blog.security;
 
-import me.ktkim.blog.model.User;
+import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

@@ -3,6 +3,9 @@ package me.ktkim.blog.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Kim Keumtae
  */
@@ -14,8 +17,88 @@ public class ApplicationProperties {
 
     private final Security security = new Security();
 
+    private final Google google = new Google();
+
+    public Google getGoogle() {
+        return google;
+    }
+
     public Datasource getDatasource() {
         return datasource;
+    }
+
+    public static class Google {
+
+        private final Client client = new Client();
+
+        private final Resource resource = new Resource();
+
+        public Client getClient() {
+            return client;
+        }
+
+        public Resource getResource() {
+            return resource;
+        }
+
+        public static class Client {
+            private String clientId;
+            private String clientSecret;
+            private String accessTokenUri;
+            private String userAuthorizationUri;
+            private List<String> scope;
+
+            public List<String> getScope() {
+                return scope;
+            }
+
+            public void setScope(List<String> scope) {
+                this.scope = scope;
+            }
+
+            public String getClientId() {
+                return clientId;
+            }
+
+            public void setClientId(String clientId) {
+                this.clientId = clientId;
+            }
+
+            public String getClientSecret() {
+                return clientSecret;
+            }
+
+            public void setClientSecret(String clientSecret) {
+                this.clientSecret = clientSecret;
+            }
+
+            public String getAccessTokenUri() {
+                return accessTokenUri;
+            }
+
+            public void setAccessTokenUri(String accessTokenUri) {
+                this.accessTokenUri = accessTokenUri;
+            }
+
+            public String getUserAuthorizationUri() {
+                return userAuthorizationUri;
+            }
+
+            public void setUserAuthorizationUri(String userAuthorizationUri) {
+                this.userAuthorizationUri = userAuthorizationUri;
+            }
+        }
+        public static class Resource {
+            private String userInfoUri;
+
+            public String getUserInfoUri() {
+                return userInfoUri;
+            }
+
+            public void setUserInfoUri(String userInfoUri) {
+                this.userInfoUri = userInfoUri;
+            }
+        }
     }
 
     public static class Datasource {
@@ -105,5 +188,24 @@ public class ApplicationProperties {
                 this.tokenValidityInSecondsForRememberMe = tokenValidityInSecondsForRememberMe;
             }
         }
+    }
+
+    private final OAuth2 oAuth2 = new OAuth2();
+
+    public static final class OAuth2 {
+        private List<String> authorizedRedirectUris = new ArrayList<>();
+
+        public List<String> getAuthorizedRedirectUris() {
+            return authorizedRedirectUris;
+        }
+
+        public OAuth2 authorizedRedirectUris(List<String> authorizedRedirectUris) {
+            this.authorizedRedirectUris = authorizedRedirectUris;
+            return this;
+        }
+    }
+
+    public OAuth2 getoAuth2() {
+        return oAuth2;
     }
 }

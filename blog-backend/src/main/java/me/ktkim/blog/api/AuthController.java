@@ -1,5 +1,11 @@
 package me.ktkim.blog.api;
 
+import me.ktkim.blog.common.Exception.util.AuthProvider;
+import me.ktkim.blog.model.domain.User;
+import me.ktkim.blog.model.request.LoginRequest;
+import me.ktkim.blog.model.request.SignUpRequest;
+import me.ktkim.blog.model.response.AuthResponse;
+import me.ktkim.blog.repository.UserRepository;
 import me.ktkim.blog.security.jwt.JwtAuthRequest;
 import me.ktkim.blog.security.jwt.JwtAuthResponse;
 import me.ktkim.blog.security.jwt.JwtUtil;
@@ -13,9 +19,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.Collections;
 
 import static me.ktkim.blog.security.jwt.JwtFilter.AUTHORIZATION_HEADER;
@@ -24,7 +34,7 @@ import static me.ktkim.blog.security.jwt.JwtFilter.AUTHORIZATION_HEADER;
  * @author Kim Keumtae
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -34,6 +44,13 @@ public class AuthController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthRequest request
@@ -54,5 +71,43 @@ public class AuthController {
             return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",
                     ae.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtUtil.createToken(authentication);
+        return ResponseEntity.ok(new AuthResponse(token));
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+            throw new RuntimeException("Email address already in use.");
+        }
+
+        User user = new User();
+        user.setUserName(signUpRequest.getName());
+        user.setEmail(signUpRequest.getEmail());
+        user.setPassword(signUpRequest.getPassword());
+        user.setProvider(AuthProvider.local);
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        User result = userRepository.save(user);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/user/me")
+                .buildAndExpand(result.getId()).toUri();
+
+        return ResponseEntity.created(location).build();
     }
 }

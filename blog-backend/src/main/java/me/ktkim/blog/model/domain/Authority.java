@@ -1,4 +1,6 @@
-package me.ktkim.blog.model;
+package me.ktkim.blog.model.domain;
+
+import me.ktkim.blog.model.BaseModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

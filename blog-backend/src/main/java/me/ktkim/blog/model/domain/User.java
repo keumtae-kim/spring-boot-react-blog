@@ -1,9 +1,11 @@
-package me.ktkim.blog.model;
+package me.ktkim.blog.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import me.ktkim.blog.common.Exception.util.AuthProvider;
+import me.ktkim.blog.model.BaseModel;
 import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -43,10 +45,17 @@ public class User extends BaseModel {
     private String userName;
 
     @JsonIgnore
-    @NotNull
     @Size(min = 60, max = 60)
-    @Column(name = "password_hash", length = 60, nullable = false)
+    @Column(name = "password_hash", length = 60, nullable = true)
     private String password;
+
+    private String imageUrl;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
 
     @JsonIgnore
     @ManyToMany

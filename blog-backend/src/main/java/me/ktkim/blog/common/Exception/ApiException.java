@@ -21,6 +21,11 @@ public class ApiException extends RuntimeException {
         setHttpStatus(httpStatus);
     }
 
+    public ApiException(String message) {
+        super(message);
+        setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     public String getExceptionCode() {
         return exceptionCode;
     }

@@ -10,7 +10,6 @@ import java.io.IOException;
 /**
  * @author Kim Keumtae
  */
-@Component
 public class SimpleCorsFilter implements Filter {
 
     @Override

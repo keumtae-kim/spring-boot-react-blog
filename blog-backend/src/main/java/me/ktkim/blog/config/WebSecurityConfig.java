@@ -1,10 +1,10 @@
 package me.ktkim.blog.config;
 
-import me.ktkim.blog.security.DatabaseUserDetailsService;
-import me.ktkim.blog.security.Http401ErrorEntryPoint;
-import me.ktkim.blog.security.SimpleCorsFilter;
-import me.ktkim.blog.security.jwt.JwtFilter;
-import me.ktkim.blog.security.jwt.JwtUtil;
+import me.ktkim.blog.security.*;
+import me.ktkim.blog.security.oauth2.CustomOAuth2UserService;
+import me.ktkim.blog.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
+import me.ktkim.blog.security.oauth2.OAuth2AuthenticationFailureHandler;
+import me.ktkim.blog.security.oauth2.Oauth2AuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +17,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -27,23 +28,29 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private DatabaseUserDetailsService databaseUserDetailsService;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomOAuth2UserService customOAuth2UserService;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
+    private Oauth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
+
+    @Autowired
+    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+
+    @Autowired
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(databaseUserDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    public DatabaseUserDetailsService userDetailsService() {
         return new DatabaseUserDetailsService();
     }
 
@@ -64,28 +71,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new Http401ErrorEntryPoint();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .addFilterBefore(new SimpleCorsFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(http401ErrorEntryPoint())
-                .and()
-                .csrf()
-                .disable()
-                .headers()
-                .frameOptions()
-                .disable()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/authenticate").permitAll()
-                .antMatchers("/api/register").permitAll();
-                //.antMatchers("/api/**").authenticated();
+    @Bean
+    public TokenAuthenticationFilter tokenAuthenticationFilter() {
+        return new TokenAuthenticationFilter();
     }
+
+    @Bean
+    public SimpleCorsFilter simpleCorsFilter() {
+        return new SimpleCorsFilter();
+    }
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -97,5 +92,67 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**");
     }
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .cors()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .csrf()
+                .disable()
+                .formLogin()
+                .disable()
+                .httpBasic()
+                .disable()
+                .addFilterBefore(simpleCorsFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(new Http401ErrorEntryPoint())
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/authenticate").permitAll()
+                .antMatchers("/api/register").permitAll()
+                .antMatchers("/api/test").permitAll()
+                .antMatchers("/api/posts").permitAll()
+                .antMatchers("/",
+                        "/error",
+                        "/favicon.ico",
+                        "/**/*.png",
+                        "/**/*.gif",
+                        "/**/*.svg",
+                        "/**/*.jpg",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js")
+                .permitAll()
+                .antMatchers("/auth/**", "/oauth2/**", "/h2-console/**", "/swagger-ui.html")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize")
+                .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*")
+                .and()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oauth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler);
+    }
 
+    /*
+        By default, Spring OAuth2 uses HttpSessionOAuth2AuthorizationRequestRepository to save
+        the authorization request. But, since our service is stateless, we can't save it in
+        the session. We'll save the request in a Base64 encoded cookie instead.
+    */
+    private AuthorizationRequestRepository<OAuth2AuthorizationRequest> cookieAuthorizationRequestRepository() {
+        return new HttpCookieOAuth2AuthorizationRequestRepository();
+    }
 }
