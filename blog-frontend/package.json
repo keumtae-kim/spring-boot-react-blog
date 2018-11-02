@@ -55,13 +55,14 @@
     "react-dev-utils": "^5.0.2",
     "react-dom": "^16.5.2",
     "react-draft-wysiwyg": "^1.12.13",
+    "react-google-login": "^3.2.1",
     "react-icons": "^3.1.0",
     "react-redux": "^5.0.7",
     "react-render-html": "^0.6.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-rte": "^0.16.1",
-    "reactstrap": "^6.4.0",
+    "reactstrap": "^6.5.0",
     "redux": "^4.0.0",
     "redux-actions": "^2.6.1",
     "redux-pender": "^1.2.1",
@@ -126,5 +127,5 @@
   "devDependencies": {
     "prettier-eslint": "^8.8.2"
   },
-  "proxy": "http://localhost:8081"
+  "proxy": "http://localhost:8080"
 }

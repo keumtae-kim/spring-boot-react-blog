@@ -2,9 +2,7 @@
 @import url("//fonts.googleapis.com/earlyaccess/notosanskr.css");
 @import url("//cdn.jsdelivr.net/gh/velopert/font-d2coding@1.2.1/d2coding.css");
 
-@import '~open-color/open-color';
-@import '~include-media/dist/include-media';
-@import '~bootstrap/scss/bootstrap';
+@import "lib/all.scss";
 @import "lib/variables.scss";
 
 a { 
