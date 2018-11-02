@@ -112,10 +112,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new Http401ErrorEntryPoint())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/authenticate").permitAll()
-                .antMatchers("/api/register").permitAll()
-                .antMatchers("/api/test").permitAll()
-                .antMatchers("/api/posts").permitAll()
+                .antMatchers("/api/authenticate/**").permitAll()
+                .antMatchers("/api/register/**").permitAll()
+                .antMatchers("/api/test/**").permitAll()
+                .antMatchers("/api/posts/**").permitAll()
                 .antMatchers("/",
                         "/error",
                         "/favicon.ico",
