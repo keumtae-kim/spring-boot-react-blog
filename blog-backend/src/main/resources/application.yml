@@ -21,6 +21,10 @@ application:
     - myiosapp://oauth2/redirect
 
 spring:
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
   application:
     name: Blog
   profiles:
@@ -82,6 +86,10 @@ spring:
             authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
             tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
             userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture
+  http:
+    log-request-details: true
 server:
   port: 8080
-
+logging:
+  level:
+    web: debug
