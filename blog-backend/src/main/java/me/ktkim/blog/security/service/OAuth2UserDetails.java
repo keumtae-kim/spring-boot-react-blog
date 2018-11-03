@@ -1,6 +1,7 @@
-package me.ktkim.blog.security;
+package me.ktkim.blog.security.service;
 
 import me.ktkim.blog.model.domain.User;
+import me.ktkim.blog.common.util.AuthoritiesConstants;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,25 +12,25 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class UserPrincipal implements OAuth2User, UserDetails {
+public class OAuth2UserDetails implements OAuth2User, UserDetails {
     private Long id;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-    public UserPrincipal(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public OAuth2UserDetails(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public static UserPrincipal create(User user) {
+    public static OAuth2UserDetails create(User user) {
         List<GrantedAuthority> authorities = Collections.
-                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+                singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
 
-        return new UserPrincipal(
+        return new OAuth2UserDetails(
                 user.getId(),
                 user.getEmail(),
                 user.getPassword(),
@@ -37,10 +38,10 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         );
     }
 
-    public static UserPrincipal create(User user, Map<String, Object> attributes) {
-        UserPrincipal userPrincipal = UserPrincipal.create(user);
-        userPrincipal.setAttributes(attributes);
-        return userPrincipal;
+    public static OAuth2UserDetails create(User user, Map<String, Object> attributes) {
+        OAuth2UserDetails oAuth2UserDetails = OAuth2UserDetails.create(user);
+        oAuth2UserDetails.setAttributes(attributes);
+        return oAuth2UserDetails;
     }
 
     public Long getId() {

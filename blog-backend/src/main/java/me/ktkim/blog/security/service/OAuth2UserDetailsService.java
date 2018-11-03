@@ -1,4 +1,4 @@
-package me.ktkim.blog.security;
+package me.ktkim.blog.security.service;
 
 
 import me.ktkim.blog.common.Exception.ApiException;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class OAuth2UserDetailsService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
@@ -31,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                         new UsernameNotFoundException("User not found with email : " + email)
         );
 
-        return UserPrincipal.create(user);
+        return OAuth2UserDetails.create(user);
     }
 
     @Transactional
@@ -40,6 +40,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             () -> new ApiException("User not found ", HttpStatus.NOT_FOUND)
         );
 
-        return UserPrincipal.create(user);
+        return OAuth2UserDetails.create(user);
     }
 }

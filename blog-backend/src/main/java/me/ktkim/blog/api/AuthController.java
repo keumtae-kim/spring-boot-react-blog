@@ -1,6 +1,6 @@
 package me.ktkim.blog.api;
 
-import me.ktkim.blog.common.Exception.util.AuthProvider;
+import me.ktkim.blog.common.util.AuthProvider;
 import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.model.request.LoginRequest;
 import me.ktkim.blog.model.request.SignUpRequest;
@@ -28,8 +28,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
 
-import static me.ktkim.blog.security.jwt.JwtFilter.AUTHORIZATION_HEADER;
-
 /**
  * @author Kim Keumtae
  */
@@ -50,6 +48,8 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private final String AUTHORIZATION_HEADER = "Authorization";
 
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)

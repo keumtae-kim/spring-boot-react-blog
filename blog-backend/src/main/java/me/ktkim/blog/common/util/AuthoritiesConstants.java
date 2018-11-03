@@ -1,4 +1,4 @@
-package me.ktkim.blog.security;
+package me.ktkim.blog.common.util;
 
 /**
  * @author Kim Keumtae

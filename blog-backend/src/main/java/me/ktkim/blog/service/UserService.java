@@ -6,7 +6,7 @@ import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.model.dto.UserDto;
 import me.ktkim.blog.repository.AuthorityRepository;
 import me.ktkim.blog.repository.UserRepository;
-import me.ktkim.blog.security.AuthoritiesConstants;
+import me.ktkim.blog.common.util.AuthoritiesConstants;
 import me.ktkim.blog.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

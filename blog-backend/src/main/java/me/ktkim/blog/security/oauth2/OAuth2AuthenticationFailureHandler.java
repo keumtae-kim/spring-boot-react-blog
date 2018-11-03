@@ -1,7 +1,7 @@
 package me.ktkim.blog.security.oauth2;
 
 
-import me.ktkim.blog.common.Exception.util.CookieUtils;
+import me.ktkim.blog.common.util.CookieUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;

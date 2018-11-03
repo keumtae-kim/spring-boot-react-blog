@@ -1,4 +1,4 @@
-package me.ktkim.blog.security;
+package me.ktkim.blog.security.service;
 
 import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.repository.UserRepository;

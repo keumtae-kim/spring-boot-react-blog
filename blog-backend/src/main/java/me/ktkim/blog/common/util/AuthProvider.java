@@ -1,4 +1,4 @@
-package me.ktkim.blog.common.Exception.util;
+package me.ktkim.blog.common.util;
 
 public enum AuthProvider {
     local,

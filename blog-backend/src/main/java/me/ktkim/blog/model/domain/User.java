@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import me.ktkim.blog.common.Exception.util.AuthProvider;
+import me.ktkim.blog.common.util.AuthProvider;
 import me.ktkim.blog.model.BaseModel;
 import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedBy;

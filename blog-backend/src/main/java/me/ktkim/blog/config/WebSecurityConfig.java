@@ -1,10 +1,12 @@
 package me.ktkim.blog.config;
 
 import me.ktkim.blog.security.*;
+import me.ktkim.blog.security.jwt.JwtAuthFilter;
 import me.ktkim.blog.security.oauth2.CustomOAuth2UserService;
 import me.ktkim.blog.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import me.ktkim.blog.security.oauth2.OAuth2AuthenticationFailureHandler;
-import me.ktkim.blog.security.oauth2.Oauth2AuthenticationSuccessHandler;
+import me.ktkim.blog.security.oauth2.OAuth2AuthenticationSuccessHandler;
+import me.ktkim.blog.security.service.DatabaseUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomOAuth2UserService customOAuth2UserService;
 
     @Autowired
-    private Oauth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
+    private OAuth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
 
     @Autowired
     private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
@@ -72,8 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter();
+    public JwtAuthFilter tokenAuthenticationFilter() {
+        return new JwtAuthFilter();
     }
 
     @Bean

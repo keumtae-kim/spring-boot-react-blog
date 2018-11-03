@@ -1,9 +1,8 @@
 package me.ktkim.blog.security.oauth2;
 
 
-import io.undertow.util.BadRequestException;
 import me.ktkim.blog.common.Exception.ApiException;
-import me.ktkim.blog.common.Exception.util.CookieUtils;
+import me.ktkim.blog.common.util.CookieUtils;
 import me.ktkim.blog.config.ApplicationProperties;
 import me.ktkim.blog.security.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +23,14 @@ import java.util.Optional;
 import static me.ktkim.blog.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Component
-public class Oauth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private JwtUtil jwtUtil;
 
     private ApplicationProperties applicationProperties;
 
     @Autowired
-    Oauth2AuthenticationSuccessHandler(JwtUtil jwtUtil, ApplicationProperties applicationProperties) {
+    OAuth2AuthenticationSuccessHandler(JwtUtil jwtUtil, ApplicationProperties applicationProperties) {
         this.jwtUtil = jwtUtil;
         this.applicationProperties = applicationProperties;
     }

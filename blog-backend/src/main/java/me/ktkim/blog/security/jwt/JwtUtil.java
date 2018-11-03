@@ -2,19 +2,16 @@ package me.ktkim.blog.security.jwt;
 
 import io.jsonwebtoken.*;
 import me.ktkim.blog.config.ApplicationProperties;
-import me.ktkim.blog.security.UserPrincipal;
+import me.ktkim.blog.security.service.OAuth2UserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -47,11 +44,6 @@ public class JwtUtil {
         this.tokenValidityInMillisecondsForRememberMe =
                 1000 * applicationProperties.getSecurity().getJwt().getTokenValidityInSecondsForRememberMe();
     }
-//
-//    @PostConstruct
-//    public void init() {
-//
-//    }
 
     public String createToken(Authentication authentication) {
         return createToken(authentication, false);
@@ -69,10 +61,10 @@ public class JwtUtil {
         } else {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        OAuth2UserDetails OAuth2UserDetails = (OAuth2UserDetails) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getEmail())
+                .setSubject(OAuth2UserDetails.getEmail())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .setExpiration(validity)

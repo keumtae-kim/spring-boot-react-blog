@@ -1,7 +1,7 @@
 package me.ktkim.blog.security.oauth2.user;
 
 import me.ktkim.blog.common.Exception.ApiException;
-import me.ktkim.blog.common.Exception.util.AuthProvider;
+import me.ktkim.blog.common.util.AuthProvider;
 import org.springframework.http.HttpStatus;
 
 
