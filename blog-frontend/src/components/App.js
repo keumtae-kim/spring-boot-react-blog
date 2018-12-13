@@ -9,7 +9,7 @@ const App = () => {
         <Route exact path="/" component={PostListPage}/>
         <Route path="/pages/:page" component={PostListPage}/>}
         <Route path="/posts/:id" component={PostPage}/>}
-        <Route path="/editor/:id" component={EditorPage}/>}
+        <Route path="/editor/:id?" component={EditorPage}/>}
         <Route component={NotFoundPage}/>
       </Switch>
     </div>
