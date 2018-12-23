@@ -52,7 +52,9 @@ public class PostService {
         return postRepository.findAllByOrderByCreatedDateDesc(pageable);
     }
 
-    public void delete(Post post) {
-        postRepository.delete(post);
+    public void deletePost(Long id) {
+        postRepository.findById(id).ifPresent(post -> {
+            postRepository.delete(post);
+        });
     }
 }

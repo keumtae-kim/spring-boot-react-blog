@@ -57,7 +57,7 @@ public class PostController {
 
     @PutMapping(value = "/posts/{id}")
     public ResponseEntity<PostDto> editPost(@PathVariable Long id,
-                                         @RequestBody PostDto postDto) {
+                                            @RequestBody PostDto postDto) {
         log.debug("REST request to edit Post : {}", postDto);
         Optional<Post> post = postService.findForId(id);
         if (!post.isPresent()) {
@@ -67,5 +67,16 @@ public class PostController {
         return returnPost.map(response -> {
             return new ResponseEntity<PostDto>(response, HttpStatus.OK);
         }).orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping(value = "/posts/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
+        log.debug("REST request to delete Post id : {}", id);
+        if (id == null) {
+            throw new ApiException("Post id cannot null", HttpStatus.NOT_FOUND);
+        } else {
+            postService.deletePost(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 }
