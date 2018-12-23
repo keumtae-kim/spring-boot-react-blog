@@ -8,11 +8,11 @@ import renderHTML from 'react-render-html';
 import { Button } from 'reactstrap';
 const cx = classNames.bind(styles);
 
-const Post = ({ post }) => {
+const Post = ({ post, deletePost }) => {
   if (post === undefined) {
     return null;
   }
-
+  
   return (
     <Fragment>
       <div className={cx("post-header")}>
@@ -20,7 +20,7 @@ const Post = ({ post }) => {
           <Link to={"/posts/" + post.get("id")}>{post.get("title")}</Link>
           <span className={cx('post-button')}>
             <Button className={cx('post-button')} color='info' size='sm' tag={Link} to={'/editor/' + post.get('id')}>EDIT</Button>
-            <Button className={cx('post-button')} color='danger' size='sm' tag={Link} to={"/"}>DELETE</Button>
+            <Button className={cx('post-button')} color='danger' size='sm' onClick={() => deletePost(post.get('id'))}>DELETE</Button>
           </span>
         </h2>
 

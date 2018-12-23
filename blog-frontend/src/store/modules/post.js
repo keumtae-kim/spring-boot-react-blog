@@ -10,11 +10,13 @@ const GET_POST_LIST = 'post/GET_POST_LIST';
 const GET_POST = 'post/GET_POST';
 const WRITE_POST = 'post/WRITE_POST';
 const EDIT_POST = 'post/EDIT_POST';
+const DELETE_POST = 'post/DELETE_POST';
 
 export const getPostList = createAction(GET_POST_LIST, api.getPosts);
 export const getPost = createAction(GET_POST, api.getPost);
 export const writePost = createAction(WRITE_POST, api.writePost);
 export const editPost = createAction(WRITE_POST, api.editPost);
+export const deletePost = createAction(DELETE_POST, api.deletePost);
 
 const initialState = Map({
   posts: List(),
@@ -63,11 +65,10 @@ export default handleActions({
     }
   }),
   ...pender({
-    type: EDIT_POST,
-    onSuccess: (state, action) => {
-      const { id } = action.payload.data;
-      console.log("EDIT_POST onSuccess")
-      return state.set('postId', id);
+    type: DELETE_POST,
+    onSuccess: (state, action) => {      
+      console.log("DELETE_POST onSuccess")
+      return state;
     }
   }),
 }, initialState)

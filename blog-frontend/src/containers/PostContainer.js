@@ -3,13 +3,24 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as postActions from "store/modules/post";
 import Post from "components/Post";
+import { withRouter } from 'react-router-dom';
 
 class PostContainer extends Component {
 
   getPost = async (id) => {
     const { PostActions } = this.props;
     try {
-      await PostActions.getPost(id);
+      await PostActions.getPost(id);      
+    } catch (e) {
+      console.log("error log :" + e);
+    }
+  }
+
+  deletePost = (id) => {
+    const { PostActions, history } = this.props;
+    try {
+      PostActions.deletePost(id);
+      history.push("/");
     } catch (e) {
       console.log("error log :" + e);
     }
@@ -28,7 +39,7 @@ class PostContainer extends Component {
       <Fragment>
         {/* {loading && "Loading..."} */}
         {error && <h1>Server Error!</h1>}
-        {success && <Post post={post} />}
+        {success && <Post post={post} deletePost={this.deletePost}/>}
       </Fragment>
     );
   }
@@ -44,4 +55,4 @@ export default connect(
   dispatch => ({
     PostActions: bindActionCreators(postActions, dispatch)
   })
-)(PostContainer);
+)(withRouter(PostContainer));

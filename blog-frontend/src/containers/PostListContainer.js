@@ -14,11 +14,8 @@ class PostContainer extends Component {
     }
   }
 
-  componentDidMount() {
-    const { posts } = this.props;
-    if (!posts || posts === undefined || posts.isEmpty()) {
-      this.getPostList(0, 10);
-    }   
+  componentDidMount() {    
+    this.getPostList(0, 10);
   }
 
   render() {
