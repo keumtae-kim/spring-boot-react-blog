@@ -35,7 +35,7 @@ class Menu extends Component {
     return (
       <Navbar className={cx("navbar", "navbar-expand-lg", "navbar-light", "fixed-top", "is-visible")} id="mainNav">
         <Container>
-          <a className={cx("navbar-brand")} href="/">HOME</a>
+          <a className={cx("navbar-brand")} href="#/">HOME</a>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="navbar-nav ml-auto">
