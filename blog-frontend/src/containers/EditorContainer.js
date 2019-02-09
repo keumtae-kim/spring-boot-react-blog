@@ -42,7 +42,7 @@ class EditorContainer extends Component {
   }
 
   render() {
-    const { post, loading, error, success, id } = this.props;
+    const { post, loading, error, id } = this.props;
     if (loading)
       return null;
     return (
@@ -60,7 +60,7 @@ export default connect(
     postId: state.post.get("postId"),
     loading: state.pender.pending["post/GET_POST"],
     error: state.pender.failure["post/GET_POST"],
-    success: state.pender.success["post/GET_POST"]
+    success: state.pender.success["post/GET_POST"]    
   }),
   dispatch => ({
     PostActions: bindActionCreators(postActions, dispatch)

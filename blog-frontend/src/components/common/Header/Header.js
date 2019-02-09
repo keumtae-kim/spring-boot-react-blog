@@ -2,33 +2,58 @@ import React, { Component } from 'react';
 import {
   Container,
   Row,
-  Col
+  Col,
+  Collapse,
+  Navbar,
+  Nav,
+  NavItem,
+  NavLink,
+  NavbarToggler
 } from 'reactstrap';
 import styles from './Header.scss';
 import classNames from 'classnames/bind';
-import Menu from './Menu';
+import AccountMenu from './Menu/account';
 
 const cx = classNames.bind(styles);
 
 class Header extends Component {
   constructor(props) {
     super(props);
-
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false
     };
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+
   render() {
+    const { isAuthenticated, onLogout } = this.props;
     return (
       <div>
-        <Menu />
-        <header className={cx("header")} style={{ backgroundImage: `url(home-bg.jpg)` }}>
+        <Navbar className={cx("navbar", "navbar-expand-lg", "navbar-light", "fixed-top", "is-visible")} id="mainNav">
+          <Container>
+            <a className={cx("navbar-brand")} href="#/">HOME</a>
+            <NavbarToggler aria-label="Menu" onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className="navbar-nav ml-auto">
+                <NavItem>
+                  <NavLink to="/login">About</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink to="/contact">Contact</NavLink>
+                </NavItem>
+                <AccountMenu isAuthenticated={isAuthenticated}  onLogout={onLogout}/>
+              </Nav>
+            </Collapse>
+          </Container>
+        </Navbar>
+
+        <div className={cx("header")} style={{ backgroundImage: `url(home-bg.jpg)` }}>
           <div className="overlay"></div>
           <Container>
             <Row>
@@ -39,7 +64,7 @@ class Header extends Component {
               </Col>
             </Row>
           </Container>
-        </header>
+        </div>
       </div>
     );
   }
