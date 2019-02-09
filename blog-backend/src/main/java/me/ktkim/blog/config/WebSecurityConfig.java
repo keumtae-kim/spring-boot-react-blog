@@ -19,7 +19,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
@@ -48,8 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(databaseUserDetailsService)
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(customPasswordEncoder());
     }
+
 
     @Bean
     public DatabaseUserDetailsService userDetailsService() {
@@ -63,10 +64,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder customPasswordEncoder() {
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return BCrypt.hashpw(rawPassword.toString(), BCrypt.gensalt(4));
+            }
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return BCrypt.checkpw(rawPassword.toString(), encodedPassword);
+            }
+        };
     }
-
 
     @Bean
     public Http401ErrorEntryPoint http401ErrorEntryPoint() {
@@ -114,22 +123,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new Http401ErrorEntryPoint())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/authenticate/**").permitAll()
-                .antMatchers("/api/register/**").permitAll()
-                .antMatchers("/api/test/**").permitAll()
-                .antMatchers("/api/posts/**").permitAll()
-                .antMatchers("/",
-                        "/error",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
-                .permitAll()
-                .antMatchers("/auth/**", "/oauth2/**", "/h2-console/**", "/swagger-ui.html")
+                .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+                .antMatchers("/", "/error", "/api/authenticate/**", "/api/register", "/auth/authenticate"
+                        , "/auth/signup", "/oauth2/**", "/h2-console/**", "/swagger-ui.html")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

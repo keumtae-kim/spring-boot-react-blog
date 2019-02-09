@@ -1,12 +1,8 @@
 INSERT INTO user (user_id, email, user_name, password_hash, provider, created_by, created_date) VALUES
- ( 1, 'keumtae.kim@email.com', 'keumtae.kim', '$2a$10$9i/vfmfdXZ/WFm5EMZfLkO4aNRIOsbRSe1b8CzrJfxIJIUwDU5.7m', 'local', 'keumtae.kim', now());
+ ( 1, 'admin@mail.com', 'admin', '$2a$04$ItDBvcn41QncTbDL6Q2eNOHVQf5US/bdwQj/aczc2AGoGoEaX.ogi', 'local', 'system', now());
 
  INSERT INTO user (user_id, email, user_name, password_hash, provider, created_by, created_date) VALUES
- ( 2, 'user1@email.com', 'lucas kim','$2a$10$qdx/aFpSyP3AT/YBh9nEq.DYRV7juqUhPG.KjW.lIZUUPfrxuUkGG', 'local', 'lucas kim', now());
-
-  INSERT INTO user (user_id, email, user_name, password_hash, provider, created_by, created_date) VALUES
- ( 3, 'admin@email.com', 'jone kim', '$2a$10$qdx/aFpSyP3AT/YBh9nEq.DYRV7juqUhPG.KjW.lIZUUPfrxuUkGG', 'local', 'jone kim', now());
-
+ ( 2, 'user1@mail.com', 'user1','$2a$04$Qao0KqDim7VubPHV9x.oj.awaz0ArpPNlU7l0q18ZdsBXJn82dKPG', 'local', 'system', now());
 
 INSERT INTO authority (name) VALUES
  ('ROLE_ADMIN'), ('ROLE_USER' );

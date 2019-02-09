@@ -18,6 +18,7 @@ public class UserDto {
         private Long id;
         private String email;
         private String password;
+        private String userName;
         private Set<String> authorities;
         private String createdBy;
         private LocalDateTime createdDate;

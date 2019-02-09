@@ -2,6 +2,7 @@ package me.ktkim.blog.security.jwt;
 
 import io.jsonwebtoken.*;
 import me.ktkim.blog.config.ApplicationProperties;
+import me.ktkim.blog.security.service.DatabaseUserDetailsService;
 import me.ktkim.blog.security.service.OAuth2UserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -61,10 +63,10 @@ public class JwtUtil {
         } else {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
-        OAuth2UserDetails OAuth2UserDetails = (OAuth2UserDetails) authentication.getPrincipal();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject(OAuth2UserDetails.getEmail())
+                .setSubject(userDetails.getUsername())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .setExpiration(validity)
@@ -79,7 +81,6 @@ public class JwtUtil {
                 .setExpiration(new Date((new Date()).getTime() + 1000 * 3600 * 24 * 365))
                 .compact();
     }
-
 
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser()

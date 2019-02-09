@@ -1,11 +1,12 @@
 package me.ktkim.blog.model.request;
 
+import lombok.ToString;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-/**
- * Created by rajeevkumarsingh on 02/08/17.
- */
+
+@ToString
 public class LoginRequest {
     @NotBlank
     @Email

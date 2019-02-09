@@ -41,7 +41,7 @@ public class User extends BaseModel {
     private String email;
 
     @Size(min = 1, max = 30)
-    @Column(name = "user_name", length = 30, unique = true, nullable = false)
+    @Column(name = "user_name", length = 30, nullable = false)
     private String userName;
 
     @JsonIgnore

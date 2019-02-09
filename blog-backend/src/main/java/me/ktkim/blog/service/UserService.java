@@ -1,6 +1,7 @@
 package me.ktkim.blog.service;
 
 import me.ktkim.blog.common.Exception.ApiException;
+import me.ktkim.blog.common.util.AuthProvider;
 import me.ktkim.blog.model.domain.Authority;
 import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.model.dto.UserDto;
@@ -48,25 +49,24 @@ public class UserService {
                     throw new ApiException("Email Already exists.", HttpStatus.BAD_REQUEST);
                 });
 
-        User user = this.createUser(userDto.getEmail().toLowerCase(), userDto.getPassword());
+        User user = this.createUser(userDto.getEmail().toLowerCase(), userDto.getPassword(), userDto.getUserName());
         return user;
     }
 
-    public User createUser(String email, String password) {
+    public User createUser(String email, String password, String userName) {
         User newUser = new User();
         Optional<Authority> authority = authorityRepository.findById(AuthoritiesConstants.USER);
         Set<Authority> authorities = new HashSet<>();
-        String encryptedPassword = passwordEncoder.encode(password);
-        newUser.setPassword(encryptedPassword);
+        newUser.setPassword( passwordEncoder.encode(password));
         newUser.setEmail(email);
+        newUser.setUserName(userName);
+        newUser.setProvider(AuthProvider.local);
         authority.ifPresent(auth -> authorities.add(auth));
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
     }
-
-
 
     public void updateUser(Long id, String email, String name, boolean activated) {
         userRepository.findOneById(id).ifPresent(user -> {
@@ -87,17 +87,6 @@ public class UserService {
     public void deleteUser(Long userId) {
         userRepository.findOneById(userId).ifPresent(user -> {
             userRepository.deleteById(userId);
-        });
-    }
-
-    public void updatePassword(String email, String password) {
-        String currentLogin = SecurityUtil.getCurrentUser();
-        if (!email.equals(currentLogin)) {
-            throw new RuntimeException("incorrect login");
-        }
-        userRepository.findByEmail(SecurityUtil.getCurrentUser()).ifPresent(user -> {
-            String encryptedPassword = passwordEncoder.encode(password);
-            user.setPassword(encryptedPassword);
         });
     }
 }
