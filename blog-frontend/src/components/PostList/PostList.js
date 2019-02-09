@@ -8,7 +8,7 @@ import { Button } from 'reactstrap';
 
 const cx = classNames.bind(styles);
 
-const PostList = ({ posts }) => {
+const PostList = ({ isAuthenticated, posts }) => {
   if (posts === undefined) {
     return null;
   }
@@ -42,7 +42,7 @@ const PostList = ({ posts }) => {
 
   return (
     <Fragment>
-      <Button className={cx('write-btn')} color='info'tag={Link} to={"/editor"}>NEW POST</Button>
+      {isAuthenticated && <Button className={cx('write-btn')} color='info'tag={Link} to={"/editor"}>NEW POST</Button>}
       {postList}
     </Fragment>
   )

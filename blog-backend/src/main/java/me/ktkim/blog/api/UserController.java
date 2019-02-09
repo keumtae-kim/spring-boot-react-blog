@@ -26,6 +26,7 @@ import javax.validation.Valid;
  */
 @RestController
 @CrossOrigin
+@RequestMapping("/api")
 public class UserController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -41,14 +42,13 @@ public class UserController {
 
     private static final String CHECK_ERROR_MESSAGE = "Incorrect password";
 
-    @PostMapping(path = "/register",
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
+    @PostMapping(path = "/register")
     public ResponseEntity registerAccount(@Valid @RequestBody UserDto.Create userDto) {
 
         HttpHeaders textPlainHeaders = new HttpHeaders();
         textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
-        if (!!StringUtils.isEmpty(userDto.getPassword()) &&
-                userDto.getPassword().length() >= 4 && userDto.getPassword().length() <= 10) {
+        if (StringUtils.isEmpty(userDto.getPassword()) &&
+                (userDto.getPassword().length() <= 4 && userDto.getPassword().length() > 10)) {
             return new ResponseEntity<>(CHECK_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
         }
         userService.registerAccount(userDto);
@@ -61,13 +61,6 @@ public class UserController {
                 .map(user -> modelMapper.map(user, UserDto.Response.class))
                 .map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PostMapping(path = "/user/update-password",
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity updatePassword(@Valid @RequestBody UserDto.Login userDto) {
-        userService.updatePassword(userDto.getLogin(), userDto.getPassword());
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/user/me")

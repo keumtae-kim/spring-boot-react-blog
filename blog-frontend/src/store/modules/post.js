@@ -9,7 +9,6 @@ import * as api from 'lib/api';
 const GET_POST_LIST = 'post/GET_POST_LIST';
 const GET_POST = 'post/GET_POST';
 const WRITE_POST = 'post/WRITE_POST';
-const EDIT_POST = 'post/EDIT_POST';
 const DELETE_POST = 'post/DELETE_POST';
 
 export const getPostList = createAction(GET_POST_LIST, api.getPosts);
@@ -62,12 +61,31 @@ export default handleActions({
       const { id } = action.payload.data;
       console.log("WRITE_POST onSuccess")
       return state.set('postId', id);
+    },
+    onFailure: (state, action) => {
+      console.log("WRITE_POST onFailure")
+      return state;
     }
   }),
   ...pender({
     type: DELETE_POST,
     onSuccess: (state, action) => {      
       console.log("DELETE_POST onSuccess")
+      return state;
+    },
+    onFailure: (state, action) => {
+      console.log("DELETE_POST onFailure")
+      return state;
+    }
+  }),
+  ...pender({
+    type: DELETE_POST,
+    onSuccess: (state, action) => {      
+      console.log("DELETE_POST onSuccess")
+      return state;
+    },
+    onFailure: (state, action) => {
+      console.log("DELETE_POST onFailure")
       return state;
     }
   }),

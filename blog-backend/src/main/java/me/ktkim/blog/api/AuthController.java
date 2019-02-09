@@ -1,12 +1,12 @@
 package me.ktkim.blog.api;
 
+import me.ktkim.blog.common.Exception.ApiException;
 import me.ktkim.blog.common.util.AuthProvider;
 import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.model.request.LoginRequest;
 import me.ktkim.blog.model.request.SignUpRequest;
-import me.ktkim.blog.model.response.AuthResponse;
 import me.ktkim.blog.repository.UserRepository;
-import me.ktkim.blog.security.jwt.JwtAuthRequest;
+import me.ktkim.blog.security.SecurityUtil;
 import me.ktkim.blog.security.jwt.JwtAuthResponse;
 import me.ktkim.blog.security.jwt.JwtUtil;
 import org.slf4j.Logger;
@@ -52,13 +52,13 @@ public class AuthController {
     private final String AUTHORIZATION_HEADER = "Authorization";
 
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthRequest request
+    @PostMapping(value = "/authenticate")
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest request
             , @RequestParam(value = "rememberMe", defaultValue = "false", required = false) boolean rememberMe
             , HttpServletResponse response) throws AuthenticationException {
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
 
         try {
             Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
@@ -73,19 +73,11 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtUtil.createToken(authentication);
-        return ResponseEntity.ok(new AuthResponse(token));
+    @PostMapping(value = "/user")
+    public User getUser() throws AuthenticationException {
+        return SecurityUtil.getCurrentUserLogin()
+                .flatMap(userRepository::findOneWithAuthoritiesByEmail)
+                .orElseThrow(() -> new ApiException("User could not be found", HttpStatus.UNAUTHORIZED));
     }
 
     @PostMapping("/signup")
@@ -99,9 +91,7 @@ public class AuthController {
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(signUpRequest.getPassword());
         user.setProvider(AuthProvider.local);
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         User result = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder

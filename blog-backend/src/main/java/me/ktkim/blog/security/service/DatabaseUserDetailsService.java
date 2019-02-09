@@ -34,6 +34,6 @@ public class DatabaseUserDetailsService implements UserDetailsService {
                     .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                     .collect(Collectors.toList());
             return new org.springframework.security.core.userdetails.User(lowercaseEmail, user.getPassword(), grantedAuthorities);
-        }).orElseThrow(() -> new UsernameNotFoundException("사용자 " + lowercaseEmail + "DB에 존재하지 않습니다."));
+        }).orElseThrow(() -> new UsernameNotFoundException("User does not exist :" + lowercaseEmail));
     }
 }

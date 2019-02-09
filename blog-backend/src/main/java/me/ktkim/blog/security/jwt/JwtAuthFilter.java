@@ -1,5 +1,6 @@
 package me.ktkim.blog.security.jwt;
 
+import me.ktkim.blog.security.service.DatabaseUserDetailsService;
 import me.ktkim.blog.security.service.OAuth2UserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private OAuth2UserDetailsService OAuth2UserDetailsService;
+    private DatabaseUserDetailsService userDetailsService;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
 
@@ -35,7 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (StringUtils.hasText(jwt) && jwtUtil.validateToken(jwt)) {
                 String userId = jwtUtil.getUserIdFromToken(jwt);
 
-                UserDetails userDetails = OAuth2UserDetailsService.loadUserByUsername(userId);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
