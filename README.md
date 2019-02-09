@@ -34,6 +34,10 @@ Server Build      | Maven
 - After install, run: `npm run start` or `yarn start`
 - It will open your browser(http://localhost:3000)
 
+### Account
+- admin email : admin@mail.com
+- admin password : admin
+
 ## Screenshots
 
 ### Main
