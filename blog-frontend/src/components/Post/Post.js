@@ -8,7 +8,7 @@ import renderHTML from 'react-render-html';
 import { Button } from 'reactstrap';
 const cx = classNames.bind(styles);
 
-const Post = ({ post, deletePost }) => {
+const Post = ({ post, deletePost, isAuthenticated }) => {
   if (post === undefined) {
     return null;
   }
@@ -18,10 +18,12 @@ const Post = ({ post, deletePost }) => {
       <div className={cx("post-header")}>
         <h2 className={cx("post-title")}>
           <Link to={"/posts/" + post.get("id")}>{post.get("title")}</Link>
-          <span className={cx('post-button')}>
+          {
+            isAuthenticated && <span className={cx('post-button')}>
             <Button className={cx('post-button')} color='info' size='sm' tag={Link} to={'/editor/' + post.get('id')}>EDIT</Button>
             <Button className={cx('post-button')} color='danger' size='sm' onClick={() => deletePost(post.get('id'))}>DELETE</Button>
           </span>
+          }
         </h2>
 
         <div className={cx("post-meta")}>         

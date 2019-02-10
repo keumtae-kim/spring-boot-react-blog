@@ -3,7 +3,7 @@ import PageTemplate from 'components/common/PageTemplate'
 import PostListContainer from 'containers/PostListContainer'
 import HeaderContainer from 'containers/HeaderContainer'
 
-const PostPage = () => {
+const PostListPage = () => {
   return (
     <PageTemplate header={<HeaderContainer/>}>
       <PostListContainer/>
@@ -11,4 +11,4 @@ const PostPage = () => {
   );
 };
 
-export default PostPage;
+export default PostListPage;
