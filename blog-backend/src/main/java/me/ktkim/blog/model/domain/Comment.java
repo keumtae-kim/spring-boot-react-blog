@@ -2,6 +2,8 @@ package me.ktkim.blog.model.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,9 +26,14 @@ public class Comment {
     @Column(name = "body", columnDefinition = "TEXT")
     private String body;
 
-    @Column(name = "create_date", nullable = false, updatable = false)
+    @Column(name = "created_date", nullable = false, updatable = false)
     @NotNull
-    private LocalDateTime createDate;
+    @CreatedDate
+    private LocalDateTime createdDate = LocalDateTime.now();
+
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "post_id", nullable = false)
