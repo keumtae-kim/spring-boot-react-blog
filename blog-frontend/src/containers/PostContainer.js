@@ -10,7 +10,7 @@ class PostContainer extends Component {
   getPost = async (id) => {
     const { PostActions } = this.props;
     try {
-      await PostActions.getPost(id);      
+      await PostActions.getPost(id);
     } catch (e) {
       console.log("error log :" + e);
     }
@@ -26,20 +26,30 @@ class PostContainer extends Component {
     }
   }
 
+  getCommentList = async (id) => {
+    const { PostActions } = this.props;
+    try {
+      await PostActions.getCommentList(id);
+    } catch (e) {
+      console.log("error log :" + e);
+    }
+  }
+
   componentDidMount() {
     const { id } = this.props;
     this.getPost(id);
+    this.getCommentList(id);
   }
 
   render() {
-    const { post, loading, error, success, isAuthenticated } = this.props;
+    const { post, comments, loading, error, success, isAuthenticated } = this.props;
     if (loading)
       return null;
     return (
       <Fragment>
         {/* {loading && "Loading..."} */}
         {error && <h1>Server Error!</h1>}
-        {success && <Post post={post} deletePost={this.deletePost} isAuthenticated={isAuthenticated}/>}
+        {success && <Post post={post} comments={comments} deletePost={this.deletePost} isAuthenticated={isAuthenticated} />}
       </Fragment>
     );
   }
@@ -50,7 +60,11 @@ export default connect(
     post: state.post.get("post"),
     loading: state.pender.pending["post/GET_POST"],
     error: state.pender.failure["post/GET_POST"],
-    success: state.pender.success["post/GET_POST"],
+    comments: state.post.get("comments"),
+    success: state.pender.success["post/GET_COMMENT_LIST"],
+    commentsLoading: state.pender.pending["post/GET_COMMENTS"],
+    commentsError: state.pender.failure["post/GET_COMMENT_LIST"],
+    commentsSuccess: state.pender.success["post/GET_COMMENT_LIST"],
     isAuthenticated: state.auth.get("isAuthenticated")
   }),
   dispatch => ({

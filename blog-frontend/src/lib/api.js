@@ -27,11 +27,12 @@ export const deletePost = (id) => axios.delete(`${config.apiHost}/api/posts/${id
   });
 export const login = (email, password) => axios.post(`${config.apiHost}/auth/authenticate`, { email, password });
 export const getUser = () => axios.post(`${config.apiHost}/auth/user`, {},
-{
-  headers: {
-    Authorization: getToken()
-  }
-});
+  {
+    headers: {
+      Authorization: getToken()
+    }
+  });
+export const getComments = (postId) => axios.get(`${config.apiHost}/api/comments/posts/${postId}`);
 
 const getToken = () => {
   const token = Storage.local.get('__AUTH__') || Storage.session.get('__AUTH__');

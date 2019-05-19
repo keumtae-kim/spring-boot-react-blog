@@ -10,16 +10,19 @@ const GET_POST_LIST = 'post/GET_POST_LIST';
 const GET_POST = 'post/GET_POST';
 const WRITE_POST = 'post/WRITE_POST';
 const DELETE_POST = 'post/DELETE_POST';
+const GET_COMMENT_LIST = 'post/GET_COMMENT_LIST';
 
 export const getPostList = createAction(GET_POST_LIST, api.getPosts);
 export const getPost = createAction(GET_POST, api.getPost);
 export const writePost = createAction(WRITE_POST, api.writePost);
 export const editPost = createAction(WRITE_POST, api.editPost);
 export const deletePost = createAction(DELETE_POST, api.deletePost);
+export const getCommentList = createAction(GET_COMMENT_LIST, api.getComments);
 
 const initialState = Map({
   posts: List(),
-  post: Map({})
+  post: Map({}),
+  comments: List()
 });
 
 export default handleActions({
@@ -27,7 +30,7 @@ export default handleActions({
     type: GET_POST_LIST,
     onSuccess: (state, action) => {
       const { data: content } = action.payload;
-      console.log("GET_POST_LIST onSuccess")     
+      console.log("GET_POST_LIST onSuccess")
       return state.set('posts', fromJS(content))
     },
     onFailure: (state, action) => {
@@ -69,7 +72,7 @@ export default handleActions({
   }),
   ...pender({
     type: DELETE_POST,
-    onSuccess: (state, action) => {      
+    onSuccess: (state, action) => {
       console.log("DELETE_POST onSuccess")
       return state;
     },
@@ -80,12 +83,28 @@ export default handleActions({
   }),
   ...pender({
     type: DELETE_POST,
-    onSuccess: (state, action) => {      
+    onSuccess: (state, action) => {
       console.log("DELETE_POST onSuccess")
       return state;
     },
     onFailure: (state, action) => {
       console.log("DELETE_POST onFailure")
+      return state;
+    }
+  }),
+  ...pender({
+    type: GET_COMMENT_LIST,
+    onSuccess: (state, action) => {
+      const { data: content } = action.payload;
+      console.log("GET_COMMENT_LIST onSuccess")
+      return state.set('comments', content)
+    },
+    onFailure: (state, action) => {
+      console.log("GET_COMMENT_LIST onFailure")
+      return state;
+    },
+    onPending: (state, action) => {
+      console.log("GET_COMMENT_LIST onPending")
       return state;
     }
   }),
