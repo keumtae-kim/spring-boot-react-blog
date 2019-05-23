@@ -82,17 +82,6 @@ export default handleActions({
     }
   }),
   ...pender({
-    type: DELETE_POST,
-    onSuccess: (state, action) => {
-      console.log("DELETE_POST onSuccess")
-      return state;
-    },
-    onFailure: (state, action) => {
-      console.log("DELETE_POST onFailure")
-      return state;
-    }
-  }),
-  ...pender({
     type: GET_COMMENT_LIST,
     onSuccess: (state, action) => {
       const { data: content } = action.payload;

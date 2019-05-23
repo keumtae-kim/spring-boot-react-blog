@@ -16,10 +16,10 @@ class PostContainer extends Component {
     }
   }
 
-  deletePost = (id) => {
+  deletePost = async (id) => {
     const { PostActions, history } = this.props;
     try {
-      PostActions.deletePost(id);
+      await PostActions.deletePost(id);
       history.push("/");
     } catch (e) {
       console.log("error log :" + e);
@@ -49,7 +49,7 @@ class PostContainer extends Component {
       <Fragment>
         {/* {loading && "Loading..."} */}
         {error && <h1>Server Error!</h1>}
-        {success && <Post post={post} comments={comments} deletePost={this.deletePost} isAuthenticated={isAuthenticated} />}
+        {!error && success && <Post post={post} comments={comments} deletePost={this.deletePost} isAuthenticated={isAuthenticated} />}
       </Fragment>
     );
   }
