@@ -9,7 +9,6 @@ class LoginModal extends Component {
     super(props);
 
     this.state = {
-      showModal: true,
       loginError: false
     };
   }

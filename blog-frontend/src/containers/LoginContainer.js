@@ -7,6 +7,14 @@ import LoginModal from '../components/Login/LoginModal';
 
 class LoginContainer extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showModal: false
+    };
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props !== prevProps) {
       this.setState({ showModal: this.props.showModal });
@@ -23,18 +31,21 @@ class LoginContainer extends Component {
   }; 
 
   handleClose = () => {
-    this.setState({ showModal: false });
+    this.setState(prevState => ({
+      showModal: !prevState.showModal
+    }));
   };
 
   render() {
     const { location, isAuthenticated } = this.props;
+    const { showModal } = this.state;
     const { from } = location.state || { from: { pathname: '/', search: location.search } };
 
     if (isAuthenticated) {
        return <Redirect to={from} />;
     }
     return (  
-      <LoginModal showModal={!isAuthenticated} handleLogin={this.handleLogin} handleClose={this.handleClose} loginError={this.props.loginError} />
+      <LoginModal showModal={!showModal} handleLogin={this.handleLogin} handleClose={this.handleClose} loginError={this.props.loginError} />
     );
   }
 }
