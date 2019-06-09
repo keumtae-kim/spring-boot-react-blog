@@ -33,7 +33,8 @@ public class DatabaseUserDetailsService implements UserDetailsService {
             List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                     .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                     .collect(Collectors.toList());
-            return new org.springframework.security.core.userdetails.User(lowercaseEmail, user.getPassword(), grantedAuthorities);
+            return new org.springframework.security.core.userdetails.
+                    User(lowercaseEmail, user.getPassword() != null ? user.getPassword() : "", grantedAuthorities);
         }).orElseThrow(() -> new UsernameNotFoundException("User does not exist :" + lowercaseEmail));
     }
 }

@@ -11,14 +11,8 @@ application:
       token-validity-in-seconds-for-remember-me: 2592000
 
   oauth2:
-    # After successfully authenticating with the OAuth2 Provider,
-    # we'll be generating an auth token for the user and sending the token to the
-    # redirectUri mentioned by the client in the /oauth2/authorize request.
-    # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
     - http://localhost:3000/oauth2/redirect
-    - myandroidapp://oauth2/redirect
-    - myiosapp://oauth2/redirect
 
 spring:
   data:
@@ -67,25 +61,6 @@ spring:
             scope:
             - email
             - profile
-          facebook:
-            clientId: test
-            clientSecret: test
-            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
-            scope:
-            - email
-            - public_profile
-          github:
-            clientId: test
-            clientSecret: test
-            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
-            scope:
-            - user:email
-            - read:user
-        provider:
-          facebook:
-            authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
-            tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
-            userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture
   http:
     log-request-details: true
 server:

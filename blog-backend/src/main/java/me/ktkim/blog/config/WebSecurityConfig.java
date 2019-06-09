@@ -51,7 +51,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(customPasswordEncoder());
     }
 
-
     @Bean
     public DatabaseUserDetailsService userDetailsService() {
         return new DatabaseUserDetailsService();
@@ -70,6 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             public String encode(CharSequence rawPassword) {
                 return BCrypt.hashpw(rawPassword.toString(), BCrypt.gensalt(4));
             }
+
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
                 return BCrypt.checkpw(rawPassword.toString(), encodedPassword);
@@ -123,6 +123,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new Http401ErrorEntryPoint())
                 .and()
                 .authorizeRequests()
+                .antMatchers("/",
+                        "/error",
+                        "/favicon.ico",
+                        "/**/*.png",
+                        "/**/*.gif",
+                        "/**/*.svg",
+                        "/**/*.jpg",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js")
+                .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
                 .antMatchers("/", "/error", "/api/authenticate/**", "/api/register", "/auth/authenticate"
