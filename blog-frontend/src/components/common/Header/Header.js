@@ -13,6 +13,7 @@ import {
 import styles from './Header.scss';
 import classNames from 'classnames/bind';
 import AccountMenu from './Menu/account';
+import homeBg from 'images/home-bg.jpg';
 
 const cx = classNames.bind(styles);
 
@@ -37,7 +38,7 @@ class Header extends Component {
       <div>
         <Navbar className={cx("navbar", "navbar-expand-lg", "navbar-light", "fixed-top", "is-visible")} id="mainNav">
           <Container>
-            <a className={cx("navbar-brand")} href="#/">HOME</a>
+            <a className={cx("navbar-brand")} href="/">HOME</a>
             <NavbarToggler aria-label="Menu" onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="navbar-nav ml-auto">
@@ -47,13 +48,13 @@ class Header extends Component {
                 <NavItem>
                   <NavLink to="/contact">Contact</NavLink>
                 </NavItem>
-                <AccountMenu isAuthenticated={isAuthenticated}  onLogout={onLogout}/>
+                <AccountMenu isAuthenticated={isAuthenticated} onLogout={onLogout} />
               </Nav>
             </Collapse>
           </Container>
         </Navbar>
 
-        <div className={cx("header")} style={{ backgroundImage: `url(home-bg.jpg)` }}>
+        <div className={cx("header")} style={{ backgroundImage: `url(${homeBg})` }}>
           <div className="overlay"></div>
           <Container>
             <Row>

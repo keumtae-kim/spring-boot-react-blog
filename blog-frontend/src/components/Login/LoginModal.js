@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Alert, Row, Col } from 'reactstrap';
 import { AvForm, AvField, AvGroup, AvInput } from 'availity-reactstrap-validation';
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../../constants';
+import fbLogo from '../../images/fb-logo.png';
+import googleLogo from '../../images/google-logo.png';
+import styles from './LoginModal.scss';
+import classNames from 'classnames/bind';
+const cx = classNames.bind(styles);
 
 class LoginModal extends Component {
 
@@ -61,6 +66,9 @@ class LoginModal extends Component {
               </Col>
             </Row>
             <div className="mt-1">&nbsp;</div>
+            <div className="login-container">
+              <SocialLogin />
+            </div>
           </ModalBody>
           <ModalFooter>
             <Button color="secondary" onClick={handleClose} tabIndex="1">
@@ -72,6 +80,21 @@ class LoginModal extends Component {
           </ModalFooter>
         </AvForm>
       </Modal>
+    );
+  }
+}
+
+class SocialLogin extends Component {
+  render() {
+    return (
+      <div className="social-login">
+        <Button block color="link" className={cx("google")} href={GOOGLE_AUTH_URL}>
+          <img src={googleLogo} alt="Google" /> Log in with Google
+        </Button>
+        <Button block color="link" className={cx("facebook")} href={FACEBOOK_AUTH_URL}>
+          <img src={fbLogo} alt="Facebook" /> ( Not yet implemented )
+        </Button>
+      </div>
     );
   }
 }

@@ -1,0 +1,28 @@
+.login-container {
+  text-align: center;
+}
+
+.social-login {
+  font-weight: 400;
+  font-size: 16px;
+  vertical-align: middle;
+
+  a {
+    border: 1px solid #ced4da;
+  }
+ 
+  img {
+    height: 32px;
+    float: left;
+    vertical-align: middle;
+  }
+
+
+  .facebook {
+    img {
+      height: 24px;
+      margin-left: 3px;      
+    }
+  }
+
+}

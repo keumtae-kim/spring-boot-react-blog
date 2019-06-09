@@ -41,6 +41,7 @@ const Post = ({ post, comments, deletePost, isAuthenticated }) => {
       </div>
       <hr></hr>
       <CommentList
+        isAuthenticated={isAuthenticated}
         loading={false}
         comments={comments}>
       </CommentList>

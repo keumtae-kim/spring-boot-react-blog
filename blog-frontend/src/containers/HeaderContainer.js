@@ -8,7 +8,6 @@ class HeaderContainer extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props !== prevProps) {
-      console.log("header container")
       this.setState({ showModal: this.props.showModal });
     }
   }

@@ -5,7 +5,7 @@ import LoginContainer from 'containers/LoginContainer'
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as authActions from "store/modules/auth";
-
+import OAuth2RedirectHandler from 'components/Login/oauth2/OAuth2RedirectHandler';
 
 class App extends Component {
 
@@ -17,14 +17,15 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Route path="/login" component={LoginContainer} />
+        <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}/>      
+        <Route path="/login" component={LoginContainer} />       
         <Switch>
-          <Route path="/pages/:page" component={PostListPage} />}
-          <Route path="/posts/:id" component={PostPage} />}
-          <Route path="/editor/:id?" component={EditorPage} />}
+          <Route path="/pages/:page" component={PostListPage} />
+          <Route path="/posts/:id" component={PostPage} />
+          <Route path="/editor/:id?" component={EditorPage} />          
           <Route path="/" component={PostListPage} />
           <Route component={NotFoundPage} />
-        </Switch>
+        </Switch>       
       </div>
     );
   }

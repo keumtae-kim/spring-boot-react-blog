@@ -41,7 +41,6 @@ const NavDropdown = props => (
 
 export const AccountMenu = ({ isAuthenticated = false, onLogout }) => {
   let auth = accountMenuItemsAuthenticated(onLogout);
-  console.log("account : " + isAuthenticated)
  
   return (
   <NavDropdown icon="user" name="Account" id="account-menu">
