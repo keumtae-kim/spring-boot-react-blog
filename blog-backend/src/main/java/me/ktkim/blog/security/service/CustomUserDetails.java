@@ -12,25 +12,25 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class OAuth2UserDetails implements OAuth2User, UserDetails {
+public class CustomUserDetails implements OAuth2User, UserDetails {
     private Long id;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-    public OAuth2UserDetails(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public CustomUserDetails(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public static OAuth2UserDetails create(User user) {
+    public static CustomUserDetails create(User user) {
         List<GrantedAuthority> authorities = Collections.
                 singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
 
-        return new OAuth2UserDetails(
+        return new CustomUserDetails(
                 user.getId(),
                 user.getEmail(),
                 user.getPassword(),
@@ -38,10 +38,10 @@ public class OAuth2UserDetails implements OAuth2User, UserDetails {
         );
     }
 
-    public static OAuth2UserDetails create(User user, Map<String, Object> attributes) {
-        OAuth2UserDetails oAuth2UserDetails = OAuth2UserDetails.create(user);
-        oAuth2UserDetails.setAttributes(attributes);
-        return oAuth2UserDetails;
+    public static CustomUserDetails create(User user, Map<String, Object> attributes) {
+        CustomUserDetails customUserDetails = CustomUserDetails.create(user);
+        customUserDetails.setAttributes(attributes);
+        return customUserDetails;
     }
 
     public Long getId() {

@@ -4,7 +4,7 @@ import me.ktkim.blog.common.Exception.ApiException;
 import me.ktkim.blog.common.util.AuthProvider;
 import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.repository.UserRepository;
-import me.ktkim.blog.security.service.OAuth2UserDetails;
+import me.ktkim.blog.security.service.CustomUserDetails;
 import me.ktkim.blog.security.oauth2.user.OAuth2UserInfo;
 import me.ktkim.blog.security.oauth2.user.OAuth2UserInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
 
-        return OAuth2UserDetails.create(user, oAuth2User.getAttributes());
+        return CustomUserDetails.create(user, oAuth2User.getAttributes());
     }
 
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {

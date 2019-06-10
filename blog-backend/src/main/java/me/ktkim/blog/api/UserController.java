@@ -5,7 +5,7 @@ import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.model.dto.UserDto;
 import me.ktkim.blog.repository.UserRepository;
 import me.ktkim.blog.security.CurrentUser;
-import me.ktkim.blog.security.service.OAuth2UserDetails;
+import me.ktkim.blog.security.service.CustomUserDetails;
 import me.ktkim.blog.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
@@ -61,12 +61,5 @@ public class UserController {
                 .map(user -> modelMapper.map(user, UserDto.Response.class))
                 .map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER')")
-    public User getCurrentUser(@CurrentUser OAuth2UserDetails OAuth2UserDetails) {
-        return userRepository.findById(OAuth2UserDetails.getId())
-                .orElseThrow(() -> new ApiException("User", HttpStatus.NOT_FOUND));
     }
 }

@@ -6,7 +6,7 @@ import me.ktkim.blog.security.oauth2.CustomOAuth2UserService;
 import me.ktkim.blog.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import me.ktkim.blog.security.oauth2.OAuth2AuthenticationFailureHandler;
 import me.ktkim.blog.security.oauth2.OAuth2AuthenticationSuccessHandler;
-import me.ktkim.blog.security.service.DatabaseUserDetailsService;
+import me.ktkim.blog.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DatabaseUserDetailsService databaseUserDetailsService;
+    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
@@ -47,13 +47,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(databaseUserDetailsService)
+        auth.userDetailsService(customUserDetailsService)
                 .passwordEncoder(customPasswordEncoder());
     }
 
     @Bean
-    public DatabaseUserDetailsService userDetailsService() {
-        return new DatabaseUserDetailsService();
+    public CustomUserDetailsService userDetailsService() {
+        return new CustomUserDetailsService();
     }
 
     @Override

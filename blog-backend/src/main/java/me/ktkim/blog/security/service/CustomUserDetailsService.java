@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Service
-public class OAuth2UserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
@@ -31,7 +31,7 @@ public class OAuth2UserDetailsService implements UserDetailsService {
                         new UsernameNotFoundException("User not found with email : " + email)
         );
 
-        return OAuth2UserDetails.create(user);
+        return CustomUserDetails.create(user);
     }
 
     @Transactional
@@ -40,6 +40,6 @@ public class OAuth2UserDetailsService implements UserDetailsService {
             () -> new ApiException("User not found ", HttpStatus.NOT_FOUND)
         );
 
-        return OAuth2UserDetails.create(user);
+        return CustomUserDetails.create(user);
     }
 }

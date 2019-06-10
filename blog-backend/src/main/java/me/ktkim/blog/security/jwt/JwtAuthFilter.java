@@ -1,7 +1,6 @@
 package me.ktkim.blog.security.jwt;
 
-import me.ktkim.blog.security.service.DatabaseUserDetailsService;
-import me.ktkim.blog.security.service.OAuth2UserDetailsService;
+import me.ktkim.blog.security.service.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private DatabaseUserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
 

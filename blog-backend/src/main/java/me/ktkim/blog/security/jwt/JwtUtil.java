@@ -2,8 +2,7 @@ package me.ktkim.blog.security.jwt;
 
 import io.jsonwebtoken.*;
 import me.ktkim.blog.config.ApplicationProperties;
-import me.ktkim.blog.security.service.DatabaseUserDetailsService;
-import me.ktkim.blog.security.service.OAuth2UserDetails;
+import me.ktkim.blog.security.service.CustomUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -63,10 +62,12 @@ public class JwtUtil {
         } else {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setId(Long.toString(customUserDetails.getId()))
+                .setSubject(customUserDetails.getEmail())
+                .setIssuedAt(new Date())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .setExpiration(validity)
