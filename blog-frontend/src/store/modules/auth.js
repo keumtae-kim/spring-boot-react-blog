@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { pender } from 'redux-pender';
 
 import * as api from 'lib/api';
@@ -20,7 +20,8 @@ export const getUser = createAction(GET_USER, api.getUser);
 const initialState = Map({
   isAuthenticated: false,
   loginSuccess: false,
-  loginError: false // Errors returned from server side 
+  loginError: false,
+  currentUser: Map({})
 });
 
 export default handleActions({
@@ -72,8 +73,9 @@ export default handleActions({
   ...pender({
     type: GET_USER,
     onSuccess: (state, action) => {
-      console.log("GET_USER onSuccess")
-      return state.set('isAuthenticated', true);
+      const { data: content } = action.payload;
+      return state.set('isAuthenticated', true)
+                  .set('currentUser', fromJS(content));
     },
     onFailure: (state, action) => {
       console.log("GET_USER onFailure")
