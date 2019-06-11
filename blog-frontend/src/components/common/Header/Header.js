@@ -14,6 +14,7 @@ import styles from './Header.scss';
 import classNames from 'classnames/bind';
 import AccountMenu from './Menu/account';
 import homeBg from 'images/home-bg.jpg';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -38,7 +39,7 @@ class Header extends Component {
       <div>
         <Navbar className={cx("navbar", "navbar-expand-lg", "navbar-light", "fixed-top", "is-visible")} id="mainNav">
           <Container>
-            <a className={cx("navbar-brand")} href="/">HOME</a>
+            <Link className={cx("navbar-brand")} to="/">HOME</Link>
             <NavbarToggler aria-label="Menu" onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="navbar-nav ml-auto">
