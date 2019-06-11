@@ -3,6 +3,8 @@ package me.ktkim.blog.api;
 import me.ktkim.blog.common.Exception.ApiException;
 import me.ktkim.blog.model.domain.Post;
 import me.ktkim.blog.model.dto.PostDto;
+import me.ktkim.blog.security.CurrentUser;
+import me.ktkim.blog.security.service.CustomUserDetails;
 import me.ktkim.blog.service.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,12 +47,13 @@ public class PostController {
     }
 
     @PostMapping(value = "/posts")
-    public ResponseEntity<PostDto> registerPost(@RequestBody PostDto postDto) {
+    public ResponseEntity<PostDto> registerPost(@RequestBody PostDto postDto,
+                                                @CurrentUser CustomUserDetails customUserDetails) {
         log.debug("REST request to save Post : {}", postDto);
         if (postDto.getId() != null) {
             throw new ApiException("A new post cannot already have an ID", HttpStatus.CONFLICT);
         } else {
-            PostDto returnPost = postService.registerPost(postDto);
+            PostDto returnPost = postService.registerPost(postDto, customUserDetails);
             return new ResponseEntity<PostDto>(returnPost, HttpStatus.CREATED);
         }
     }

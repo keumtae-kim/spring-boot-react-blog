@@ -99,10 +99,6 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User result = userRepository.save(user);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/user/me")
-                .buildAndExpand(result.getId()).toUri();
-
-        return ResponseEntity.created(location).build();
+        return new ResponseEntity<User>(result, HttpStatus.CREATED);
     }
 }

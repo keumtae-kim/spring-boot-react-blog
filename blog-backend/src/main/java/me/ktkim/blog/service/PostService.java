@@ -4,12 +4,14 @@ import me.ktkim.blog.model.domain.Post;
 import me.ktkim.blog.model.dto.PostDto;
 import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.repository.PostRepository;
+import me.ktkim.blog.security.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -26,11 +28,13 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public PostDto registerPost(PostDto postDto) {
+    public PostDto  registerPost(PostDto postDto, CustomUserDetails customUserDetails) {
         Post newPost = new Post();
         newPost.setTitle(postDto.getTitle());
         newPost.setBody(postDto.getBody());
-        newPost.setUser(new User(1L)); // temporary code
+        newPost.setCreatedBy(customUserDetails.getName());
+        newPost.setCreatedDate(LocalDateTime.now());
+        newPost.setUser(new User(customUserDetails.getId())); // temporary code
         return new PostDto(postRepository.saveAndFlush(newPost));
     }
 
