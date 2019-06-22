@@ -1,9 +1,11 @@
 package me.ktkim.blog.service;
 
+import me.ktkim.blog.common.Exception.BadRequestException;
 import me.ktkim.blog.model.domain.Post;
 import me.ktkim.blog.model.dto.PostDto;
 import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.repository.PostRepository;
+import me.ktkim.blog.security.SecurityUtil;
 import me.ktkim.blog.security.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +30,7 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public PostDto  registerPost(PostDto postDto, CustomUserDetails customUserDetails) {
+    public PostDto registerPost(PostDto postDto, CustomUserDetails customUserDetails) {
         Post newPost = new Post();
         newPost.setTitle(postDto.getTitle());
         newPost.setBody(postDto.getBody());
@@ -41,6 +43,9 @@ public class PostService {
     public Optional<PostDto> editPost(PostDto editPostDto) {
         return this.findForId(editPostDto.getId())
                 .map(p -> {
+                    if (p.getUser().getId() != SecurityUtil.getCurrentUserLogin().get().getId()) {
+                        throw new BadRequestException("It's not a writer.");
+                    }
                     p.setTitle(editPostDto.getTitle());
                     p.setBody(editPostDto.getBody());
                     return p;
@@ -57,8 +62,11 @@ public class PostService {
     }
 
     public void deletePost(Long id) {
-        postRepository.findById(id).ifPresent(post -> {
-            postRepository.delete(post);
+        postRepository.findById(id).ifPresent(p -> {
+            if (p.getUser().getId() != SecurityUtil.getCurrentUserLogin().get().getId()) {
+                throw new BadRequestException("It's not a writer.");
+            }
+            postRepository.delete(p);
         });
     }
 }

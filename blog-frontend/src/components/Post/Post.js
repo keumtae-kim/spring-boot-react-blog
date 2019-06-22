@@ -10,7 +10,7 @@ import styles from './Post.scss';
 
 const cx = classNames.bind(styles);
 
-const Post = ({ post, comments, deletePost, isAuthenticated }) => {
+const Post = ({ post, comments, deletePost, isAuthenticated, currentUser }) => {
   if (post === undefined) {
     return null;
   }

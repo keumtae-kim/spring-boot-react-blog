@@ -42,14 +42,19 @@ class PostContainer extends Component {
   }
 
   render() {
-    const { post, comments, loading, error, success, isAuthenticated } = this.props;
+    const { post, comments, loading, error, success, isAuthenticated, currentUser } = this.props;
     if (loading)
       return null;
     return (
       <Fragment>
         {/* {loading && "Loading..."} */}
         {error && <h1>Server Error!</h1>}
-        {!error && success && <Post post={post} comments={comments} deletePost={this.deletePost} isAuthenticated={isAuthenticated} />}
+        {!error && success &&
+          <Post post={post}
+            comments={comments}
+            deletePost={this.deletePost}
+            isAuthenticated={isAuthenticated}
+            currentUser={currentUser} />}
       </Fragment>
     );
   }
@@ -65,7 +70,8 @@ export default connect(
     commentsLoading: state.pender.pending["post/GET_COMMENTS"],
     commentsError: state.pender.failure["post/GET_COMMENT_LIST"],
     commentsSuccess: state.pender.success["post/GET_COMMENT_LIST"],
-    isAuthenticated: state.auth.get("isAuthenticated")
+    isAuthenticated: state.auth.get("isAuthenticated"),
+    currentUser: state.auth.get("currentUser")
   }),
   dispatch => ({
     PostActions: bindActionCreators(postActions, dispatch)
