@@ -35,6 +35,9 @@ Server Build      | Maven
 - After install, run: `npm run start` or `yarn start`
 - It will open your browser(http://localhost:3000)
 
+### Swagger UI
+- http://localhost:8080/swagger-ui.html
+
 ### Account
 - admin email : admin@mail.com
 - admin password : admin
