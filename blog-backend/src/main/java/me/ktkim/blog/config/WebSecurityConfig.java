@@ -99,7 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**")
                 .antMatchers("/app/**/*.{js,html}")
                 .antMatchers("/content/**")
-                .antMatchers("/swagger-ui..html")
+                .antMatchers("/swagger-ui.html")
                 .antMatchers("/h2-console/**");
     }
 
@@ -136,8 +136,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
-                .antMatchers("/", "/error", "/api/authenticate/**", "/api/register", "/auth/authenticate"
-                        , "/auth/signup", "/oauth2/**", "/h2-console/**", "/swagger-ui.html")
+                .antMatchers("/", "/error", "/api/authenticate/**", "/api/register",
+                        "/auth/authenticate", "/auth/signup", "/oauth2/**", "/h2-console/**",
+                        "/v2/**", "/swagger-ui.html", "/swagger-resources/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
