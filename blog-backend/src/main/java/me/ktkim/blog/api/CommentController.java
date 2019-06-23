@@ -1,13 +1,10 @@
 package me.ktkim.blog.api;
 
-import me.ktkim.blog.common.Exception.ApiException;
 import me.ktkim.blog.model.domain.Comment;
-import me.ktkim.blog.model.domain.Post;
-import me.ktkim.blog.model.domain.User;
 import me.ktkim.blog.model.dto.CommentDto;
-import me.ktkim.blog.model.dto.PostDto;
+import me.ktkim.blog.security.CurrentUser;
+import me.ktkim.blog.security.service.CustomUserDetails;
 import me.ktkim.blog.service.CommentService;
-import me.ktkim.blog.service.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +44,11 @@ public class CommentController {
         }
     }
 
-    @PostMapping(value = "comments/posts/{postId}")
-    public ResponseEntity<CommentDto> saveComment(@RequestBody CommentDto commentDto) {
+    @PostMapping(value = "/comments/posts/{postId}")
+    public ResponseEntity<CommentDto> saveComment(@RequestBody CommentDto commentDto,
+                                                  @CurrentUser CustomUserDetails customUserDetails) {
         log.debug("REST request to saveComment : {}", commentDto.getUserName());
-        CommentDto returnComment = commentService.registerComment(commentDto);
+        CommentDto returnComment = commentService.registerComment(commentDto, customUserDetails);
         return new ResponseEntity<CommentDto>(returnComment, HttpStatus.CREATED);
     }
 }

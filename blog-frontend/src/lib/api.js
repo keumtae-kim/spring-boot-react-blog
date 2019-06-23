@@ -36,6 +36,15 @@ export const getUser = () => axios.post(`${API_BASE_URL}/auth/user`, {},
   });
 export const getComments = (postId) => axios.get(`${API_BASE_URL}/api/comments/posts/${postId}`);
 
+export const writeComment = (postId, body) => axios.post(`${API_BASE_URL}/api/comments/posts/${postId}`, { postId, body },
+  {
+    headers: {
+      Authorization: getToken()
+    }
+  }
+
+);
+
 const getToken = () => {
   const token = Storage.local.get('__AUTH__') || Storage.session.get('__AUTH__');
   return `Bearer ${token}`

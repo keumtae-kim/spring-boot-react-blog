@@ -41,15 +41,12 @@ class TextEditor extends Component {
   onSubmit = () => {
     const { editorState, textTitle } = this.state;
     const { post, writePost } = this.props;
-
     let id;
     if (post && post.get('id')) {
       id = post.get('id')
     }
-    
     const title = textTitle;
     const body = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-
     writePost(id, title, body);
   }
 
@@ -87,10 +84,10 @@ class TextEditor extends Component {
 
 export default TextEditor;
 
-        /* 
-        preview code
-        <textarea
-          disabled
-          className="demo-content"
-          value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-        /> */
+/*
+preview code
+<textarea
+  disabled
+  className="demo-content"
+  value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+/> */

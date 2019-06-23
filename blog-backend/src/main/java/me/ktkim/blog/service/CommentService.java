@@ -1,5 +1,6 @@
 package me.ktkim.blog.service;
 
+import me.ktkim.blog.common.Exception.BadRequestException;
 import me.ktkim.blog.model.domain.Comment;
 import me.ktkim.blog.model.domain.Post;
 import me.ktkim.blog.model.domain.User;
@@ -7,6 +8,8 @@ import me.ktkim.blog.model.dto.CommentDto;
 import me.ktkim.blog.model.dto.PostDto;
 import me.ktkim.blog.repository.CommentRepository;
 import me.ktkim.blog.repository.PostRepository;
+import me.ktkim.blog.security.SecurityUtil;
+import me.ktkim.blog.security.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,20 +29,32 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private PostRepository postRepository;
+
     public Optional<Comment> findForId(Long id) {
         return commentRepository.findById(id);
+    }
+
+    public Optional<Post> findPostForId(Long id) {
+        return postRepository.findById(id);
     }
 
     public Optional<List<Comment>> findCommentsByPostId(Long id) {
         return commentRepository.findByPostId(id);
     }
 
-    public CommentDto registerComment(CommentDto commentDto) { // temporary code
-        Comment newComment = new Comment();
-        newComment.setBody(commentDto.getBody());
-        newComment.setPost(new Post(commentDto.getPostId()));
-        newComment.setUser(new User(commentDto.getUserId()));
-        return new CommentDto(commentRepository.saveAndFlush(newComment));
+    public CommentDto registerComment(CommentDto commentDto, CustomUserDetails customUserDetails) {
+        Optional<Post> postForId = this.findPostForId(commentDto.getPostId());
+        if (postForId.isPresent()) {
+            Comment newComment = new Comment();
+            newComment.setBody(commentDto.getBody());
+            newComment.setPost(postForId.get());
+            newComment.setUser(new User(customUserDetails.getId(), customUserDetails.getName()));
+            return new CommentDto(commentRepository.saveAndFlush(newComment));
+        } else {
+            throw new BadRequestException("Not exist post.");
+        }
     }
 
     public Optional<CommentDto> editPost(CommentDto editCommentDto) {

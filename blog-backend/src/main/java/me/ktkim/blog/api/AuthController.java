@@ -7,7 +7,6 @@ import me.ktkim.blog.model.request.LoginRequest;
 import me.ktkim.blog.model.request.SignUpRequest;
 import me.ktkim.blog.repository.UserRepository;
 import me.ktkim.blog.security.CurrentUser;
-import me.ktkim.blog.security.SecurityUtil;
 import me.ktkim.blog.security.jwt.JwtAuthResponse;
 import me.ktkim.blog.security.jwt.JwtUtil;
 import me.ktkim.blog.security.service.CustomUserDetails;
@@ -24,11 +23,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.Collections;
 
 /**

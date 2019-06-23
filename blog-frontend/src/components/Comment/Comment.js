@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
 const Comment = ({ comment }) => {
-  const { userName, body, lastModifiedDate } = comment;
+  const { userName, body, lastModifiedDate } = comment.toJS();
 
   return (
     <div>

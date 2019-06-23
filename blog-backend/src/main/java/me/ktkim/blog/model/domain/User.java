@@ -97,6 +97,11 @@ public class User extends BaseModel {
         this.id = id;
     }
 
+    public User(Long id, String userName) {
+        this.id = id;
+        this.userName = userName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -42,7 +42,7 @@ const PostList = ({ isAuthenticated, posts }) => {
 
   return (
     <Fragment>
-      {isAuthenticated && <Button className={cx('write-btn')} color='info'tag={Link} to={"/editor"}>NEW POST</Button>}
+      {isAuthenticated && <Button className={cx('write-btn')} color='info' tag={Link} to={"/editor"}>NEW POST</Button>}
       {postList}
     </Fragment>
   )

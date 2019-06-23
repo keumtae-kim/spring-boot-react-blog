@@ -10,7 +10,7 @@ import styles from './Post.scss';
 
 const cx = classNames.bind(styles);
 
-const Post = ({ post, comments, deletePost, isAuthenticated, currentUser }) => {
+const Post = ({ post, comments, deletePost, isAuthenticated, currentUser, writeComment }) => {
   if (post === undefined) {
     return null;
   }
@@ -22,7 +22,7 @@ const Post = ({ post, comments, deletePost, isAuthenticated, currentUser }) => {
           <h2 className={cx("post-title")}>
             <Link to={"/posts/" + post.get("id")}>{post.get("title")}</Link>
             {
-              isAuthenticated && <span className={cx('post-button')}>
+              isAuthenticated && post.get("userId") === currentUser.get("id") && <span className={cx('post-button')}>
                 <Button className={cx('post-button')} color='info' size='sm' tag={Link} to={'/editor/' + post.get('id')}>EDIT</Button>
                 <Button className={cx('post-button')} color='danger' size='sm' onClick={() => deletePost(post.get('id'))}>DELETE</Button>
               </span>
@@ -43,7 +43,9 @@ const Post = ({ post, comments, deletePost, isAuthenticated, currentUser }) => {
       <CommentList
         isAuthenticated={isAuthenticated}
         loading={false}
-        comments={comments}>
+        comments={comments}
+        writeComment={writeComment}
+        postId={post.get("id")}>
       </CommentList>
     </Fragment>
   )

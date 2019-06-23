@@ -35,6 +35,15 @@ class PostContainer extends Component {
     }
   }
 
+  writeComment = async (postId, body) => {
+    const { PostActions } = this.props;
+    try {
+      await PostActions.writeComment(postId, body);
+    } catch (e) {
+      console.log("error log :" + e);
+    }
+  }
+
   componentDidMount() {
     const { id } = this.props;
     this.getPost(id);
@@ -45,16 +54,17 @@ class PostContainer extends Component {
     const { post, comments, loading, error, success, isAuthenticated, currentUser } = this.props;
     if (loading)
       return null;
-    return (
-      <Fragment>
-        {/* {loading && "Loading..."} */}
+
+      return (
+      <Fragment>        
         {error && <h1>Server Error!</h1>}
         {!error && success &&
           <Post post={post}
             comments={comments}
             deletePost={this.deletePost}
             isAuthenticated={isAuthenticated}
-            currentUser={currentUser} />}
+            currentUser={currentUser}
+            writeComment={this.writeComment} />}
       </Fragment>
     );
   }
