@@ -21,7 +21,7 @@
     "open-color": "^1.7.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-draft-wysiwyg": "^1.13.2",
+    "react-draft-wysiwyg": "^1.14.6",
     "react-redux": "^7.0.3",
     "react-render-html": "^0.6.0",
     "react-router": "^5.0.1",
